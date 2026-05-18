@@ -1,5 +1,10 @@
+import game
+import menu
+
 def start():
-    print("Hello World")
+    print("Game started")
+    menu.main_menu()
+
 
 if __name__ == '__main__':
     start()
