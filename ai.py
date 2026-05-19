@@ -30,13 +30,13 @@ is an American businessman and retired professional basketball player who is a m
 of the Charlotte Hornets of the National Basketball Association (NBA)"""
 
 
-def validate_input(wiki_data):
+def validate_input(wiki_data: list[dict]):
     for entry in wiki_data:
         if not entry.get("name", "") or not entry.get("summary", ""):
             raise InvalidInputError()
 
 
-def validate_output(wiki_data, quiz_data):
+def validate_output(wiki_data: list[dict], quiz_data: list[dict]):
     if len(wiki_data) != len(quiz_data):
         raise InvalidOutputError()
     solutions = [output["solution"] for output in quiz_data]
@@ -45,7 +45,7 @@ def validate_output(wiki_data, quiz_data):
             raise InvalidOutputError()
 
 
-def generate_quiz(wiki_data):
+def generate_quiz(wiki_data: list[dict]) -> list[dict] | None:
     validate_input(wiki_data)
 
     instructions = (
