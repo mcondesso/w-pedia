@@ -253,21 +253,23 @@ def generate_people_data(category, amount=3):
     return results
 
 
-def get_random_wiki_data(GameMode="who", category="sports"):
+def get_random_wiki_data(mode: GameMode, category):
     """
     Returns result depending on the game mode.
     """
-    if GameMode == "who":
+    #TODO!!! change in the future
+    category = "sports"
+
+    if mode == GameMode.WHO:
         return generate_people_data(category)
 
     else:
         return None
 
 
-def main():
-    final = get_random_wiki_data()
+def run():
+    final = get_random_wiki_data(mode=GameMode.WHO, category="sports")
     print(final)
 
 
-if __name__ == '__main__':
-    main()
+run()
