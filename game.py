@@ -53,6 +53,7 @@ CATEGORY_MAP = {
     GameMode.WHEN: WhenCategory,
 }
 
+
 # --------------------------------
 # HELPER FUNCTIONS
 # --------------------------------
@@ -70,6 +71,56 @@ def get_category_options(mode: GameMode):
 # --------------------------------
 # FUNCTIONS
 # --------------------------------
+
+questions = [
+    {
+        "answer": "Apollo 11",
+        "clue1": "A historic event from 1969.",
+        "clue2": "A spaceflight mission that landed the first two humans on the Moon.",
+        "clue3": "The mission where Neil Armstrong said, 'One small step for man...'",
+    },
+]
+def get_points(attempt):
+    """
+    Takes in the attempt number (1, 2, or 3)
+    Args:
+        attempt:
+
+    Returns: The corresponding points (5, 3, 1)
+    """
+
+    #creating a dictionary of attempt numbers matched to points
+    attempts = {attempt_1 : 5, attempt_2 : 3, attempt_3 : 1}
+
+
+def play_round(question, data):
+    """
+    Handles the logic for a single round (the 3-try loop).
+    Args:
+        question:
+        data:
+
+    Returns: score earned in round
+
+    """
+    pass
+
+def start_game():
+    """
+    The main entry point. Runs the round loop, tracks total_score, and calls the final scoreboard.
+    Returns: total_score
+
+    """
+    pass
+
+def show_scoreboard():
+    """
+    Formats and prints the final total_score
+
+    Returns:total_score formatted
+
+    """
+    pass
 
 
 def run():
