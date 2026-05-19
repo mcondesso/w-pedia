@@ -220,6 +220,9 @@ def get_person_summary(person, sentences=3):
         summary = wikipedia.summary(person, sentences=sentences, auto_suggest=False)
         return {"name": person, "summary": summary}
 
+    except wikipedia.exceptions.PageError:
+        print(f"The page for {person} could not be found.")
+
     except Exception as e:
         print(f"Error: {e}")
 
