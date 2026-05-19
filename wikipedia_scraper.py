@@ -1,6 +1,8 @@
 
 import wikipedia
 import random
+from game import GameMode
+
 
 PEOPLE = {"sports":  [
     "Michael Jordan",
@@ -207,40 +209,63 @@ PEOPLE = {"sports":  [
 ]
          }
 
+# Set user for Wiki API
+wikipedia.set_user_agent("W-Pedia/1.0 (https://github.com/mcondesso/w-pedia/)")
+
 
 def get_random_people(category, amount=3):
+    """
+    Return a random list of people from a category of PEOPLE.
+    """
     if category not in PEOPLE:
         return []
 
     return random.sample(PEOPLE[category], amount)
 
 
-def get_person_summary(person, sentences=3):
+def get_summary(object_name, sentences=3):
+    """
+    Return a dictionary with the name and summary of the given object_name.
+    """
     try:
-        summary = wikipedia.summary(person, sentences=sentences, auto_suggest=False)
-        return {"name": person, "summary": summary}
+        summary = wikipedia.summary(object_name, sentences=sentences, auto_suggest=False)
+        return {"name": object_name, "summary": summary}
 
     except wikipedia.exceptions.PageError:
-        print(f"The page for {person} could not be found.")
+        print(f"The page for {object_name} could not be found.")
 
     except Exception as e:
         print(f"Error: {e}")
 
 
-def generate_people_data(category="sports", amount=3):
+def generate_people_data(category, amount=3):
+    """
+    Return a list of dictionaries for each person given the category.
+    """
     selected_people = get_random_people(category, amount)
     results = []
 
     for person in selected_people:
-        person_data = get_person_summary(person)
+        person_data = get_summary(person)
         if person_data:
             results.append(person_data)
 
     return results
 
 
+def get_random_wiki_data(GameMode="who", category="sports"):
+    """
+    Returns result depending on the game mode.
+    """
+    if GameMode == "who":
+        return generate_people_data(category)
+
+    else:
+        return None
+
+
 def main():
-    final = generate_people_data()
+    final = get_random_wiki_data()
     print(final)
 
 
