@@ -1,4 +1,3 @@
-# pip install wikipedia
 
 import wikipedia
 import random
