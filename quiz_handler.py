@@ -9,7 +9,7 @@ from unicodedata import category
 
 # import wikipedia_scraper as wiki
 # import ai
-from game import (
+from globals import (
     GameMode,
     WhoCategory,
     WhatCategory,
