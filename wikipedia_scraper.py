@@ -1,6 +1,6 @@
 import wikipedia
 import random
-from game import GameMode
+from globals import GameMode
 
 PEOPLE = {
     "sports": [
@@ -364,7 +364,7 @@ def get_random_wiki_data(mode: GameMode, category: str):
 
 
 def run():
-    test = get_random_wiki_data(mode=GameMode.WHO, category="sports")
+    test = get_random_wiki_data(mode=GameMode.WHO, category="influential")
     for element in test:
         print(element)
 
