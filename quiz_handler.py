@@ -30,12 +30,12 @@ class BaseQuizHandler(ABC):
         # wiki_data = wiki.get_random_wiki_data(mode=self.game_mode, category=self.category)
         wiki_data = [
             {
-                "name": "Gandalf",
+                "answer": "Gandalf",
                 "summary": "Gandalf is a Wizard from Lord of the Rings. "
                 "He is one of the main protagonists of the book/film series.",
             },
             {
-                "name": "Mickey Mouse",
+                "answer": "Mickey Mouse",
                 "summary": "He loves Minie Mouse and is a silly mouse.",
             },
         ]
