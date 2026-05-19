@@ -41,7 +41,11 @@ def validate_output(wiki_data: list[dict], quiz_data: list[dict]):
 
 
 def generate_quiz(wiki_data: list[dict]) -> list[dict] | None:
-    validate_input(wiki_data)
+    try:
+        validate_input(wiki_data)
+    except AIError as error:
+        print("Error validating wikipedia data: ", error)
+        return None
 
     instructions = (
         "You are generating quiz items from structured input. "
@@ -83,6 +87,10 @@ def generate_quiz(wiki_data: list[dict]) -> list[dict] | None:
         return None
 
     # Validate response from OpenAI
-    validate_output(wiki_data, quiz)
+    try:
+        validate_output(wiki_data, quiz)
+    except AIError as error:
+        print("Error parsing response from openAI: ", error)
+        return None
 
     return quiz
