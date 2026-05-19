@@ -294,11 +294,17 @@ PLACES = {
 wikipedia.set_user_agent("W-Pedia/1.0 (https://github.com/mcondesso/w-pedia/)")
 
 
-def get_random_objects(mode: GameMode, category: str, amount=3):
+def get_random_objects(mode: GameMode, category: str, amount: int = 3):
     """
-    Return a list of random objects (people or places) depending on game mode and category.
+    Creates list of random objects (people or places) depending on game mode and category.
+    Args:
+        mode: GameMode
+        category: str
+        amount: int
+
+    Returns: list with random objects
     """
-    # "Who" game mode, iterate PEOPLE
+    # "Who" game mode, iterate in PEOPLE
     if mode == GameMode.WHO:
         if category not in PEOPLE:
             return []
@@ -317,7 +323,12 @@ def get_random_objects(mode: GameMode, category: str, amount=3):
 
 def get_summary(object_name: str, sentences=3):
     """
-    Returns dictionary with answer and summary of the given object_name (Person, place or event).
+    Creates a summary of a person, place or event.
+    Args:
+        object_name: str
+        sentences: int
+
+    Returns: dictionary with name and summary
     """
     try:
         summary = wikipedia.summary(object_name, sentences=sentences, auto_suggest=False)
@@ -332,7 +343,11 @@ def get_summary(object_name: str, sentences=3):
 
 def generate_objects_data(list_elements: list):
     """
-    Return a list of dictionaries for each object (Person, place or event) given the category.
+    Iterate a list of element to give the summary of each one.
+    Args:
+        list_elements: list
+
+    Returns: list of dictionaries
     """
     results = []
     for element in list_elements:
@@ -345,7 +360,13 @@ def generate_objects_data(list_elements: list):
 
 def get_random_wiki_data(mode: GameMode, category: str):
     """
-    Returns result depending on the game mode.
+    Depending on the game mode, it will create a list of random objects, iterate through them
+    and create a dictionary with their summary as an answer.
+    Args:
+        mode: GameMode
+        category: str
+
+    Returns: list of dictionaries
     """
 
     # "Who" game mode: Gets random places and returns dicts with their summary"
@@ -359,14 +380,20 @@ def get_random_wiki_data(mode: GameMode, category: str):
         return generate_objects_data(list_of_places)
 
     else:
-        print("Error! Game mode not implemented.")
+        print("Error! Game mode not implemented yet.")
         return None
 
 
+"""
+--This lines were for testing--
+
 def run():
     test = get_random_wiki_data(mode=GameMode.WHO, category="influential")
+    print("-- Testing: --")
     for element in test:
-        print(element)
+        print(f"{element["answer"]} : \n{element["summary"]}")
+        print("-"*20)
 
 
 run()
+"""""

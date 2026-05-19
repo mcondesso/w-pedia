@@ -7,11 +7,11 @@ def get_player_name():
     """
 
     # TODO! validate player name!
-    player_name = input("\nWhat would you like to be adddressed as: ")
+    player_name = input("\nWhat would you like to be addressed as: ")
     return player_name
 
 
-def multiple_choice_menu(question: str, choices: List[str]):
+def multiple_choice_menu(question: str, choices: list[str]):
     """
 
     :param choices: Defines the multiple choice options
@@ -52,8 +52,8 @@ def show_welcome():
     print(f"\nWelcome, {player_name}!")
 
     print("\nWhere curiosity turns into knowledge,")
-    print("time turns into wisdome,")
-    print("and lerning becommes an unforgetable adventure.\n")
+    print("time turns into wisdom,")
+    print("and learning becomes an unforgettable adventure.\n")
 
 
 def show_menu():
