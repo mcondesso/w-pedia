@@ -4,6 +4,19 @@ import os
 from openai import OpenAI
 from dotenv import load_dotenv
 
+
+class AIError(Exception):
+    """Base exception class for errors thrown by the ai module."""
+
+
+class InvalidInputError(AIError):
+    """Thrown when the input to generate the quiz is invalid."""
+
+
+class InvalidOutputError(AIError):
+    """Thrown when the output from the openAI API is invalid."""
+
+
 load_dotenv()
 
 client = OpenAI(
@@ -17,24 +30,46 @@ is an American businessman and retired professional basketball player who is a m
 of the Charlotte Hornets of the National Basketball Association (NBA)"""
 
 
+def validate_input(wiki_data):
+    for entry in wiki_data:
+        if not entry.get("name", "") or not entry.get("summary", ""):
+            raise InvalidInputError()
+
+
+def validate_output(wiki_data, quiz_data):
+    if len(wiki_data) != len(quiz_data):
+        raise InvalidOutputError()
+    solutions = [output["solution"] for output in quiz_data]
+    for input in wiki_data:
+        if input["name"] not in solutions:
+            raise InvalidOutputError()
+
+
 def generate_quiz(wiki_data):
+    validate_input(wiki_data)
 
     instructions = (
-        "Please format the response into a list of dictionaries with: a list of 3 hints, "
-        "a list of 3 fake options and the solution (which is just the input title)." \
-        "The response list should contain one dictionary per input (title, summary) pair." \
-        "Each dictionary contains only the keys 'solution', 'hints', 'fake_options'."
+        "You are generating quiz items from structured input. "
+        "Return exactly valid JSON and nothing else. "
+        "The response must be a JSON array with one object per input item. "
+        "Each object must contain exactly these keys: "
+        "`solution`, `hints`, `fake_options`. "
+        "`hints` must be an array of 3 anonymized clue strings. "
+        "`fake_options` must be an array of 3 plausible but incorrect answer strings. "
+        "Do not include markdown, explanations, or extra fields."
     )
 
     prompt = (
-        "I am creating a quizz game where the player should guess an entity based on "
-        "anonymized hints. For each pair of title and summary, please generate:"
-        "- a list with 3 anonymized hints for the player to guess. Each hint should add information,"
-        "but not make it obvious."
-        "- a list with 3 fake options, that could potentially fit the information in the hint, but "
-        "not match exactly, to challenge the player, but not make it impossible."
-        f"Input data: {wiki_data}"
+        "Create a quiz for a guessing game.\n"
+        "For each input entity, generate:\n"
+        "1) `solution`: the entity name\n"
+        "2) `hints`: 3 anonymized hints that help identify the entity without naming it\n"
+        "3) `fake_options`: 3 plausible incorrect choices that fit the hints but are not the solution\n\n"
+        "Input data:\n"
+        f"{json.dumps(wiki_data, ensure_ascii=False)}"
     )
+
+    print("Generating quiz, please wait...")
 
     try:
         response = client.responses.create(
@@ -53,15 +88,8 @@ def generate_quiz(wiki_data):
         return None
 
     # Validate response from OpenAI
-    if len(wiki_data) != len(quiz):
-        print("Invalid response from OpenAI")
-        return None
-    solutions = [output["solution"] for output in quiz]
-    for input in wiki_data:
-        if input["name"] not in solutions:
-            print("Invalid response from OpenAI")
-            return None
-    
+    validate_output(wiki_data, quiz)
+
     return quiz
 
 
