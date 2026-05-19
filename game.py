@@ -16,32 +16,32 @@ class GameMode(Enum):
     """
     This enumerator sets the mode in which the game will be played.
     """
-    who = "who"
-    what = "what"
-    where = "where"
-    when = "when"
 
+    WHO = "who"
+    WHAT = "what"
+    WHERE = "where"
+    WHEN = "when"
 
 
 # --------------------------------
 # FUNCTIONS
 # --------------------------------
 
+
 def run():
 
-
-    #handle questions replace with class methods later
+    # handle questions replace with class methods later
     quiz = handler.question_handler(mode="who")
     print(quiz)
     quiz = quiz[0]
     print(quiz["question"][0])
 
-    #handle hints and answers
+    # handle hints and answers
     print(f"answer is {quiz['answer']}")
 
     # call scoring return a result dictionary
     print("Your score is XXX")
     quiz_results = {}
 
-    #get final menu
+    # get final menu
     return quiz_results
