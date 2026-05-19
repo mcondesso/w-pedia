@@ -43,7 +43,7 @@ class BaseQuizHandler(ABC):
         # quiz = ai.generate_quiz(wiki_data, mode=GameMode, category=self.category)
         quiz = [
             {
-                "question": [
+                "hints": [
                     "Famous Wizard?",
                     "Sometimes he's grey, Sometimes he's white.",
                     "Lord of the rings?",
@@ -52,7 +52,7 @@ class BaseQuizHandler(ABC):
                 "options": ["Frodo", "Sam", "Smeagol"],
             },
             {
-                "question": [
+                "hints": [
                     "Famous Mouse?",
                     "Loves Minie",
                     "Iconic Disney character?",
