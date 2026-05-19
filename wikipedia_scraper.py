@@ -318,11 +318,11 @@ def get_random_objects(mode: GameMode, category, amount=3):
 #TODO!! CHECK LATER if three sentences are enough.
 def get_summary(object_name, sentences=3):
     """
-    Returns dictionary with name and summary of the given object_name (Person, place or event).
+    Returns dictionary with answer and summary of the given object_name (Person, place or event).
     """
     try:
         summary = wikipedia.summary(object_name, sentences=sentences, auto_suggest=False)
-        return {"name": object_name, "summary": summary}
+        return {"answer": object_name, "summary": summary}
 
     except wikipedia.exceptions.PageError:
         print(f"The page for {object_name} could not be found.")
