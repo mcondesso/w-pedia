@@ -2,6 +2,30 @@
 # Track player score
 # Show final score and option to replay
 import quiz_handler as handler
+from enum import Enum
+
+# --------------------------------
+# GLOBALS
+# --------------------------------
+
+NUMBER_OF_ROUNDS = 2
+NUMBER_OF_HINTS = 3
+
+
+class GameMode(Enum):
+    """
+    This enumerator sets the mode in which the game will be played.
+    """
+    who = "who"
+    what = "what"
+    where = "where"
+    when = "when"
+
+
+
+# --------------------------------
+# FUNCTIONS
+# --------------------------------
 
 def run():
 
