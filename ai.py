@@ -86,28 +86,3 @@ def generate_quiz(wiki_data: list[dict]) -> list[dict] | None:
     validate_output(wiki_data, quiz)
 
     return quiz
-
-
-# --------------------------------
-# TMP RUN
-# --------------------------------
-
-
-def tmp_run():
-    wiki_data = [
-        {
-            "answer": "Gandalf",
-            "summary": "Gandalf is a Wizard from Lord of the Rings. "
-            "He is one of the main protagonists of the book/film series.",
-        },
-        {
-            "answer": "Mickey Mouse",
-            "summary": "He loves Minie Mouse and is a silly mouse.",
-        },
-    ]
-
-    quiz = generate_quiz(wiki_data)
-    print(quiz)
-
-
-# tmp_run()

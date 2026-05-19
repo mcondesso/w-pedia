@@ -8,7 +8,7 @@ from typing import List
 from unicodedata import category
 
 # import wikipedia_scraper as wiki
-# import ai
+from ai import generate_quiz
 from globals import (
     GameMode,
     WhoCategory,
@@ -40,27 +40,8 @@ class BaseQuizHandler(ABC):
             },
         ]
 
-        # quiz = ai.generate_quiz(wiki_data, mode=GameMode, category=self.category)
-        quiz = [
-            {
-                "hints": [
-                    "Famous Wizard?",
-                    "Sometimes he's grey, Sometimes he's white.",
-                    "Lord of the rings?",
-                ],
-                "answer": "Gandalf",
-                "options": ["Frodo", "Sam", "Smeagol"],
-            },
-            {
-                "hints": [
-                    "Famous Mouse?",
-                    "Loves Minie",
-                    "Iconic Disney character?",
-                ],
-                "answer": "Mickey Mouse",
-                "options": ["Stuart Little", "Hello Kitty", "Pluto"],
-            },
-        ]
+        quiz = generate_quiz(wiki_data)
+
         # implement class specific processing , maybe for scoring?
         self.process()
         return quiz
@@ -144,7 +125,7 @@ def tmp_run():
         mode=GameMode.WHO, game_category=WhoCategory.SPORTS
     )
     quiz = handler.generate_quiz()
-    print(quiz[0]["question"][0])
+    print(quiz[0]["hints"][0])
     # handle hints and answers
     print(f"answer is {quiz[0]['answer']}")
 
