@@ -24,11 +24,6 @@ client = OpenAI(
     api_key=os.environ.get("OPENAI_API_KEY"),
 )
 
-title = "Michael Jordan"
-summary = """Michael Jeffrey Jordan (born February 17, 1963), also known by his initials MJ,[8]
-is an American businessman and retired professional basketball player who is a minority owner
-of the Charlotte Hornets of the National Basketball Association (NBA)"""
-
 
 def validate_input(wiki_data: list[dict]):
     for entry in wiki_data:
@@ -93,17 +88,26 @@ def generate_quiz(wiki_data: list[dict]) -> list[dict] | None:
     return quiz
 
 
-wiki_data = [
-    {
-        "answer": "Gandalf",
-        "summary": "Gandalf is a Wizard from Lord of the Rings. "
-        "He is one of the main protagonists of the book/film series.",
-    },
-    {
-        "answer": "Mickey Mouse",
-        "summary": "He loves Minie Mouse and is a silly mouse.",
-    },
-]
+# --------------------------------
+# TMP RUN
+# --------------------------------
 
-quiz = generate_quiz(wiki_data)
-print(quiz)
+
+def tmp_run():
+    wiki_data = [
+        {
+            "answer": "Gandalf",
+            "summary": "Gandalf is a Wizard from Lord of the Rings. "
+            "He is one of the main protagonists of the book/film series.",
+        },
+        {
+            "answer": "Mickey Mouse",
+            "summary": "He loves Minie Mouse and is a silly mouse.",
+        },
+    ]
+
+    quiz = generate_quiz(wiki_data)
+    print(quiz)
+
+
+# tmp_run()
