@@ -294,7 +294,7 @@ PLACES = {
 wikipedia.set_user_agent("W-Pedia/1.0 (https://github.com/mcondesso/w-pedia/)")
 
 
-def get_random_objects(mode: GameMode, category, amount=3):
+def get_random_objects(mode: GameMode, category: str, amount=3):
     """
     Return a list of random objects (people or places) depending on game mode and category.
     """
@@ -315,8 +315,7 @@ def get_random_objects(mode: GameMode, category, amount=3):
         return []
 
 
-#TODO!! CHECK LATER if three sentences are enough.
-def get_summary(object_name, sentences=3):
+def get_summary(object_name: str, sentences=3):
     """
     Returns dictionary with answer and summary of the given object_name (Person, place or event).
     """
@@ -331,7 +330,7 @@ def get_summary(object_name, sentences=3):
         print(f"Error for {object_name}: {e}")
 
 
-def generate_objects_data(list_elements):
+def generate_objects_data(list_elements: list):
     """
     Return a list of dictionaries for each object (Person, place or event) given the category.
     """
@@ -344,8 +343,7 @@ def generate_objects_data(list_elements):
     return results
 
 
-#TODO!!! Check if "round" is a good implementation here or in the other code
-def get_random_wiki_data(mode: GameMode, category):
+def get_random_wiki_data(mode: GameMode, category: str):
     """
     Returns result depending on the game mode.
     """
