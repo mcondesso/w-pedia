@@ -45,3 +45,6 @@ def run():
 
     # get final menu
     return quiz_results
+
+
+print("Hello World!")
