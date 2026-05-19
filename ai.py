@@ -32,16 +32,16 @@ of the Charlotte Hornets of the National Basketball Association (NBA)"""
 
 def validate_input(wiki_data: list[dict]):
     for entry in wiki_data:
-        if not entry.get("name", "") or not entry.get("summary", ""):
+        if not entry.get("answer", "") or not entry.get("summary", ""):
             raise InvalidInputError()
 
 
 def validate_output(wiki_data: list[dict], quiz_data: list[dict]):
     if len(wiki_data) != len(quiz_data):
         raise InvalidOutputError()
-    solutions = [output["solution"] for output in quiz_data]
+    answers = [output["answer"] for output in quiz_data]
     for input in wiki_data:
-        if input["name"] not in solutions:
+        if input["answer"] not in answers:
             raise InvalidOutputError()
 
 
@@ -53,18 +53,18 @@ def generate_quiz(wiki_data: list[dict]) -> list[dict] | None:
         "Return exactly valid JSON and nothing else. "
         "The response must be a JSON array with one object per input item. "
         "Each object must contain exactly these keys: "
-        "`solution`, `hints`, `fake_options`. "
+        "`answer`, `hints`, `options`. "
         "`hints` must be an array of 3 anonymized clue strings. "
-        "`fake_options` must be an array of 3 plausible but incorrect answer strings. "
+        "`options` must be an array of 3 plausible but incorrect answer strings. "
         "Do not include markdown, explanations, or extra fields."
     )
 
     prompt = (
         "Create a quiz for a guessing game.\n"
         "For each input entity, generate:\n"
-        "1) `solution`: the entity name\n"
+        "1) `answer`: the entity name\n"
         "2) `hints`: 3 anonymized hints that help identify the entity without naming it\n"
-        "3) `fake_options`: 3 plausible incorrect choices that fit the hints but are not the solution\n\n"
+        "3) `options`: 3 plausible incorrect choices that fit the hints but are not the answer\n\n"
         "Input data:\n"
         f"{json.dumps(wiki_data, ensure_ascii=False)}"
     )
@@ -95,12 +95,12 @@ def generate_quiz(wiki_data: list[dict]) -> list[dict] | None:
 
 wiki_data = [
     {
-        "name": "Gandalf",
+        "answer": "Gandalf",
         "summary": "Gandalf is a Wizard from Lord of the Rings. "
         "He is one of the main protagonists of the book/film series.",
     },
     {
-        "name": "Mickey Mouse",
+        "answer": "Mickey Mouse",
         "summary": "He loves Minie Mouse and is a silly mouse.",
     },
 ]
