@@ -2,6 +2,8 @@
 # Track player score
 # Show final score and option to replay
 # import quiz_handler as handler
+import menu
+import quiz_handler as handler
 from enum import Enum
 
 # --------------------------------
@@ -73,74 +75,81 @@ def get_category_options(mode: GameMode):
 # FUNCTIONS
 # --------------------------------
 
-questions = [
-    {
-        "answer": "Apollo 11",
-        "clue1": "A historic event from 1969.",
-        "clue2": "A spaceflight mission that landed the first two humans on the Moon.",
-        "clue3": "The mission where Neil Armstrong said, 'One small step for man...'",
-    },
-]
+
 def get_points(attempt):
     """
-    Takes in the attempt number (1, 2, or 3)
+    Takes in the attempt number (1, 2, or 3) and translates/returns corresponding points
     Args:
         attempt:
 
     Returns: The corresponding points (5, 3, 1)
     """
 
-    #creating a dictionary of attempt numbers matched to points
-    attempts = {attempt_1 : 5, attempt_2 : 3, attempt_3 : 1}
+    points_map = {1: 5, 2: 3, 3: 1}
+    get_user_points = points_map.get(attempt, 0)
+    return get_user_points
 
 
-def play_round(question, data):
+def play_round(question_data):
     """
-    Handles the logic for a single round (the 3-try loop).
+    This handles what happens for a single round.
     Args:
-        question:
-        data:
+        question_data:
 
-    Returns: score earned in round
-
+    Returns: score earned in the round
     """
-    pass
+    print(f"\n--- Here is your Question ---")
+
+    for attempt in range(1, NUMBER_OF_HINTS + 1):
+        # This will find the clue by matching the number: clue1, clue2, or clue3
+        clue_to_show = question_data[f"clue{attempt}"]
+        print(f"Hint {attempt}: {clue_to_show}")
+
+        # We can use the menu to get the player's guess
+        player_guess = menu.get_input("Your guess: ").strip().lower()
+
+        if player_guess == question_data["answer"].lower():
+            points_earned = get_points(attempt)
+            print(f"Correct! You earned {points_earned} points.")
+            return points_earned
+
+    print(
+        f"You have unfortunately exhausted all your tries! The answer was: {question_data['answer']}"
+    )
+    return None
+
 
 def start_game():
     """
-    The main entry point. Runs the round loop, tracks total_score, and calls the final scoreboard.
+    This function runs the round loop,
+    tracks the total score,
+    and calls the final scoreboard.
+
     Returns: total_score
 
-    """
-    pass
+    Main flow: Pick mode -> Pick category -> Play rounds -> Show score."""
 
-def show_scoreboard():
-    """
-    Formats and prints the final total_score
+    # The player picks a mode they want to play (WHO, WHAT, etc.) via menu
+    chosen_mode_str = menu.select_mode()
+    mode = GameMode(chosen_mode_str)
 
-    Returns:total_score formatted
+    # We can get the subcategories from the helper
+    options = get_category_options(mode)
+    sub_category = menu.select_sub_category(options)
 
-    """
-    pass
+    # We get the Wikipedia resources or questions
+    question_bank = handler.get_questions(mode, sub_category)
 
+    total_score = 0
 
-def run():
+    # The player plays the required number of rounds
+    for i in range(NUMBER_OF_ROUNDS):
+        current_question = question_bank[i]
+        total_score += play_round(current_question)
 
-    # handle questions replace it with class methods later
-    quiz = handler.question_handler(mode="who")
-    print(quiz)
-    quiz = quiz[0]
-    print(quiz["question"][0])
-
-    # handle hints and answers
-    print(f"answer is {quiz['answer']}")
-
-    # call scoring return a result dictionary
-    print("Your score is XXX")
-    quiz_results = {}
-
-    # get final menu
-    return quiz_results
-
-
-print("Hello World!")
+    # We then show the scoreboard and handle replay via menu
+    print(f"\nFINAL SCORE: {total_score}")
+    if menu.ask_replay():
+        start_game()
+    else:
+        print("See you next time!")
