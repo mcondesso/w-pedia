@@ -1,5 +1,5 @@
 # Take in user input, show game mode menu, category menu
-import question_handler
+import quiz_handler
 import game
 
 def main_menu():
