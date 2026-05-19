@@ -70,6 +70,7 @@ def get_category_options(mode: GameMode):
     return category_options
 
 
+
 # --------------------------------
 # FUNCTIONS
 # --------------------------------
