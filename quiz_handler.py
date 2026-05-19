@@ -137,4 +137,4 @@ def tmp_run():
     return quiz_results
 
 
-tmp_run()
+# tmp_run()
