@@ -30,12 +30,12 @@ class BaseQuizHandler(ABC):
         # wiki_data = wiki.get_random_wiki_data(mode=self.game_mode, category=self.category)
         wiki_data = [
             {
-                "name": "Gandalf",
+                "answer": "Gandalf",
                 "summary": "Gandalf is a Wizard from Lord of the Rings. "
                 "He is one of the main protagonists of the book/film series.",
             },
             {
-                "name": "Mickey Mouse",
+                "answer": "Mickey Mouse",
                 "summary": "He loves Minie Mouse and is a silly mouse.",
             },
         ]
@@ -43,7 +43,7 @@ class BaseQuizHandler(ABC):
         # quiz = ai.generate_quiz(wiki_data, mode=GameMode, category=self.category)
         quiz = [
             {
-                "question": [
+                "hints": [
                     "Famous Wizard?",
                     "Sometimes he's grey, Sometimes he's white.",
                     "Lord of the rings?",
@@ -52,7 +52,7 @@ class BaseQuizHandler(ABC):
                 "options": ["Frodo", "Sam", "Smeagol"],
             },
             {
-                "question": [
+                "hints": [
                     "Famous Mouse?",
                     "Loves Minie",
                     "Iconic Disney character?",
