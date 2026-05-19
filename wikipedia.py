@@ -216,7 +216,7 @@ def get_random_people(category, amount=3):
     return random.sample(PEOPLE[category], amount)
 
 
-def get_person_summary(person, sentences=3, ):
+def get_person_summary(person, sentences=3):
     try:
         summary = wikipedia.summary(person, sentences=sentences, auto_suggest=False)
         return {"name": person, "summary": summary}
