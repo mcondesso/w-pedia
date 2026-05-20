@@ -287,7 +287,7 @@ def display_new_round():
     print(NEXT_ROUND_SEPERATOR)
 
 
-def display_result_answer(is_correct: bool, points: int, answer: str):
+def display_result_answer(is_correct: bool | None, points: int, answer: str):
     """
     displays the result of the round.
     """
