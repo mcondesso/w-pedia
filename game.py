@@ -87,11 +87,11 @@ def play_round(question_data):
                 is_correct=None, points=0, answer=question_data["answer"]
             )
 
-        # This will find the clue by matching the number: clue1, clue2, or clue3
-        clue_to_show = question_data["hints"][attempt - 1]
+        # This will find the hint by matching the number: hint1, hint2, or hint3
+        hint_to_show = question_data["hints"][attempt - 1]
 
         player_guess = menu.display_question(
-            f"Hint {attempt}:" + clue_to_show, options_shuffled
+            f"Hint {attempt}:" + hint_to_show, options_shuffled
         )
         if player_guess is None:
             replay_game()
