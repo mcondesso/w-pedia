@@ -110,8 +110,7 @@ PEOPLE = {
         "Bjørn Dæhlie",
         "Ole Einar Bjørndalen",
         "Tony Hawk",
-        "Kelly Slater",
-        "Michael Johnson"
+        "Kelly Slater"
     ],
     "influential": [
         "Alexander the Great",
