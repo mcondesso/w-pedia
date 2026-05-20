@@ -67,7 +67,7 @@ def shuffle_options(answer, options):
     return choices
 
 
-def play_round(question_data, settings):
+def play_round(question_data, settings, num_round):
     """
     This handles what happens for a single round.
     Args:
@@ -77,7 +77,7 @@ def play_round(question_data, settings):
     """
 
     points_earned = 0
-    menu.display_new_round()
+    menu.display_new_round(num_round)
 
     # prompt player
     options_shuffled = shuffle_options(
@@ -215,7 +215,7 @@ def start_game(settings):
     for i in range(max_rounds):
 
         current_question = quiz[i]
-        tmp_score = play_round(current_question, settings)
+        tmp_score = play_round(current_question, settings, i+1)
         score_rounds.append(tmp_score)
         total_score += tmp_score
 

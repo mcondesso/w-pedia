@@ -284,12 +284,14 @@ def wait_for_enter():
     input(Fore.LIGHTMAGENTA_EX + f"\n{INDENT}Press enter to continue... ")
 
 
-def display_new_round():
+def display_new_round(num_round: int):
     """
     Displays the new round message.
     :return:
     """
-    print(NEXT_ROUND_SEPERATOR)
+    print(Fore.WHITE + NEXT_ROUND_SEPERATOR)
+    print(Fore.WHITE + f"Welcome to round {num_round}".center(50))
+    print(Fore.WHITE + NEXT_ROUND_SEPERATOR)
 
 
 def display_result_answer(is_correct: bool | None, points: int, answer: str):
