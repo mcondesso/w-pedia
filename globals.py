@@ -4,7 +4,8 @@ from enum import Enum
 # GLOBALS
 # --------------------------------
 
-NUMBER_OF_ROUNDS = 2
+
+NUMBER_OF_ROUNDS = 3
 NUMBER_OF_HINTS = 3
 NUMBER_OF_API_TRIES = 3
 
@@ -46,6 +47,16 @@ CATEGORY_MAP = {
     GameMode.WHAT: WhatCategory,
     GameMode.WHERE: WhereCategory,
     # GameMode.WHEN: WhenCategory,
+}
+
+
+DEFAULT_SETTINGS = {
+    "player_name": "Player",
+    "game_mode": GameMode.WHO,
+    "game_category": WhoCategory.INFLUENTIAL,
+    "number_of_players": 1,
+    "number_of_rounds": NUMBER_OF_ROUNDS,
+    "number_of_hints": NUMBER_OF_HINTS,
 }
 
 

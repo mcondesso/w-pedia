@@ -4,9 +4,10 @@
 import random
 import sys
 
+import globals
 import menu
 import scoring
-from menu import display_error_message
+from menu import display_error_message, display_change_rounds
 from quiz_handler import QuizHandler, QuizHandlerError
 from globals import *
 
@@ -30,8 +31,10 @@ EXAMPLE_QUIZ = [
         "options": ["Minie", "Donald", "Pluto"],
     },
 ]
+
+
 # --------------------------------
-# FUNCTIONS
+# HELPER FUNCTIONS
 # --------------------------------
 
 
@@ -64,7 +67,7 @@ def shuffle_options(answer, options):
     return choices
 
 
-def play_round(question_data):
+def play_round(question_data, settings):
     """
     This handles what happens for a single round.
     Args:
@@ -84,7 +87,7 @@ def play_round(question_data):
     # track attempts
 
     is_correct = None
-    for attempt in range(1, NUMBER_OF_HINTS + 1):
+    for attempt in range(1, settings["number_of_hints"] + 1):
 
         if attempt > 1:
             menu.display_result_answer(
@@ -98,7 +101,7 @@ def play_round(question_data):
             f"Hint {attempt}: " + hint_to_show, options_shuffled
         )
         if player_guess is None:
-            replay_game()
+            replay_game(settings)
         # validate answer
         if player_guess.lower() == question_data["answer"].lower():
             is_correct = True
@@ -120,20 +123,6 @@ def play_round(question_data):
     return points_earned
 
 
-def replay_game():
-    """Handle end of game event ask if user wants to play again."""
-
-    choice = menu.replay_menu()
-    if choice == "Yes":
-        start_game()
-    elif choice == "No":
-        print("Thank you for playing W-Pedia!")
-        print("See you again soon, explorer!\n")
-    else:
-        print("Invalid choice.")
-        print("Please enter 1 or 2.")
-
-
 def validate_game_settings(game_settings):
     """
     Validates the game settings before starting the game.
@@ -150,6 +139,8 @@ def validate_game_settings(game_settings):
         "game_mode",
         "game_category",
         "number_of_players",
+        "number_of_rounds",
+        "number_of_hints",
     ]
     for key in required_keys:
         if key not in game_settings:
@@ -181,47 +172,32 @@ def validate_game_settings(game_settings):
         raise ValueError("number_of_players must be greater than 0.")
 
 
-def initialize_game():
-    """
-    Get game mode, category, and player name from menu.py.
+def replay_game():
+    """Handle end of game event ask if user wants to play again."""
 
-    Returns: game_settings
-    """
-    # The player picks a mode they want to play (WHO, WHAT, etc.) via menu
-    game_settings = menu.main_menu()
-    if game_settings is None:
-        print("Alright...")
-        return None
-
-    print("Checking Game Settings...")
-
-    # validate game settings
-    try:
-        validate_game_settings(game_settings)
-    except (KeyError, TypeError, ValueError) as e:
-        menu.display_error_message(e)
-        start_game()
-
-    return game_settings
+    choice = menu.replay_menu()
+    return choice == "Yes"
 
 
-def start_game():
+def start_game(settings):
     """
     This function runs the round loop, tracks the total score, and calls the final scoreboard.
     Main flow: Pick mode -> Pick category -> Play rounds -> Show score.
     """
 
-    game_settings = initialize_game()
-    if game_settings is None:
-        print("Exiting the game...")
+    # validate game settings
+    print(f"Checking Settings...")
+    try:
+        validate_game_settings(settings)
+    except (KeyError, TypeError, ValueError) as e:
+        menu.display_error_message(e)
         return
 
     # CALL TO API COMMENT OUT WHEN DEBUGGING ANYTHING BUT API
     # -------------
-
     # get quiz
     handler = QuizHandler.handle_quiz(
-        mode=game_settings["game_mode"], game_category=game_settings["game_category"]
+        mode=settings["game_mode"], game_category=settings["game_category"]
     )
     try:
         quiz = handler.generate_quiz()
@@ -235,15 +211,17 @@ def start_game():
     total_score = 0
     score_rounds = []
     # The player plays the required number of rounds
-    for i in range(NUMBER_OF_ROUNDS):
+    max_rounds = min(settings["number_of_rounds"], len(quiz))
+    for i in range(max_rounds):
+
         current_question = quiz[i]
-        tmp_score = play_round(current_question)
+        tmp_score = play_round(current_question, settings)
         score_rounds.append(tmp_score)
         total_score += tmp_score
 
     # We then show the scoreboard and handle replay via menu
     scores = {
-        "player_name": game_settings["player_name"],
+        "player_name": settings["player_name"],
         "score_rounds": score_rounds,
         "total": total_score,
     }
@@ -251,13 +229,70 @@ def start_game():
 
     # update the leaderboard
     leaderboard = scoring.update_leaderboard(
-        player=game_settings["player_name"],
+        player=settings["player_name"],
         score=total_score,
-        number_of_rounds=NUMBER_OF_ROUNDS,
-        hints_per_round=NUMBER_OF_HINTS,
+        number_of_rounds=settings["number_of_rounds"],
+        hints_per_round=settings["number_of_hints"],
     )
 
     menu.prompt_display_leaderboard(leaderboard)
 
     # restart
-    replay_game()
+    if replay_game():
+        return
+
+    menu.display_quit()
+    sys.exit(0)
+
+
+def handle_settings(settings):
+
+    while True:
+
+        choice = menu.display_settings_menu()
+
+        if choice == "Change Rounds":
+
+            rounds = int(menu.display_change_rounds())
+
+            settings["number_of_rounds"] = rounds
+            globals.NUMBER_OF_ROUNDS = rounds
+
+        elif choice == "Change Hints":
+
+            hints = int(menu.display_change_hints())
+
+            settings["number_of_hints"] = hints
+            globals.NUMBER_OF_HINTS = hints
+
+        elif choice == "Back":
+
+            return settings
+
+
+def main():
+    """Main function of the game."""
+
+    settings = DEFAULT_SETTINGS.copy()
+
+    while True:
+
+        choice = menu.show_main_menu()
+
+        if choice == "Start the game":
+            game_mode, game_category, number_of_players, player_name = menu.start_game()
+            settings["game_mode"] = game_mode
+            settings["game_category"] = game_category
+            settings["number_of_players"] = number_of_players
+            settings["player_name"] = player_name
+            start_game(settings=settings)
+
+        elif choice == "Instructions":
+            menu.display_instructions_menu()
+
+        elif choice == "Settings":
+            settings = handle_settings(settings)
+
+        elif choice == "Quit":
+            menu.display_quit()
+            break
