@@ -82,6 +82,11 @@ def play_round(question_data):
     # track attempts
     for attempt in range(1, NUMBER_OF_HINTS + 1):
 
+        if attempt > 1:
+            menu.display_result_answer(
+                is_correct=None, points=0, answer=question_data["answer"]
+            )
+
         # This will find the clue by matching the number: clue1, clue2, or clue3
         clue_to_show = question_data["hints"][attempt - 1]
         print(f"Hint {attempt}:")
@@ -92,14 +97,18 @@ def play_round(question_data):
         # validate answer
         if player_guess.lower() == question_data["answer"].lower():
             points_earned = get_points(attempt)
-            print(f"Correct! You earned {points_earned} points.")
+            menu.display_result_answer(
+                is_correct=False, points=0, answer=question_data["answer"]
+            )
             return points_earned
 
-    print(
-        f"You have unfortunately exhausted all your tries! The answer was: {question_data['answer']}"
+    # if incorrect
+    menu.display_result_answer(
+        is_correct=False, points=0, answer=question_data["answer"]
     )
+    points_earned = 0
 
-    return None
+    return points_earned
 
 
 def replay_game():

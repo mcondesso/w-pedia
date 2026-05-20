@@ -25,9 +25,9 @@ START_GAME_SEPERATOR = """
 """
 
 
-BAD_EMOTE = "     (x__x)     -" * 3
-NORMAL_EMOTE = "     (o.o)     -" * 3
-GOOD_EMOTE = "     (^-^)     -" * 3
+BAD_EMOTE = "(x__x)     -     " * 3
+NORMAL_EMOTE = "(o.o)     -     " * 3
+GOOD_EMOTE = "(^-^)     -     " * 3
 
 LEADERBOARD_BANNER = """
                 _______________
@@ -126,14 +126,14 @@ def get_game_mode_from_user():
     game_modes = list(GameMode)
 
     mode_choice = multiple_choice_menu(
-        "\nWhich 'Mode' would you like to play today?",
+        "Which 'Mode' would you like to play today?",
         [mode.value.title() for mode in game_modes],
     )
 
     # Convert selected string back to enum
     game_mode = next(mode for mode in game_modes if mode.value.title() == mode_choice)
 
-    print(Fore.BLUE + "\nAmazing choice!")
+    print(Fore.BLUE + "Amazing choice!")
     print(Fore.BLUE + f"Welcome to {game_mode.value.title()} mode!")
     return game_mode
 
@@ -147,7 +147,7 @@ def get_category_from_user(game_mode: GameMode):
     categories = list(CATEGORY_MAP[game_mode])
 
     category_choice = multiple_choice_menu(
-        "\nWhich 'Category' would you like to play today?",
+        "Which 'Category' would you like to play today?",
         [category.value.replace("_", " ").title() for category in categories],
     )
 
@@ -184,7 +184,7 @@ def show_menu():
     """
 
     choice = multiple_choice_menu(
-        "\nMain Menu", ["Start the game", "Instructions", "Settings", "Quit"]
+        "Main Menu", ["Start the game", "Instructions", "Settings", "Quit"]
     )
 
     if choice == "Start the game":
@@ -291,15 +291,23 @@ def display_result_answer(is_correct: bool, points: int, answer: str):
     displays the result of the round.
     """
     if is_correct:
-        print(Fore.GREEN + GOOD_EMOTE)
-        print(Fore.GREEN + "Congratulations! You have completed a round!")
+        print(Fore.GREEN + "\n" + GOOD_EMOTE)
+        print(Fore.GREEN + "Congratulations! You have completed a round!".center(50))
         print(Fore.GREEN + f"You earned {points} points.")
+        print(Fore.GREEN + GOOD_EMOTE + "\n")
+    elif is_correct is None:
+        print(Fore.YELLOW + "\n" + NORMAL_EMOTE)
+        print(Fore.YELLOW + "Try again, that was not correct....".center(50))
+        print(Fore.YELLOW + NORMAL_EMOTE + "\n")
     else:
-        print(Fore.YELLOW + BAD_EMOTE)
+        print(Fore.LIGHTRED_EX + "\n" + BAD_EMOTE)
         print(
-            Fore.YELLOW
-            + f"You have unfortunately exhausted all your tries! The answer was: {answer}"
+            Fore.LIGHTRED_EX
+            + f"You have unfortunately exhausted all your tries! The answer was: {answer}".center(
+                50
+            )
         )
+        print(Fore.LIGHTRED_EX + BAD_EMOTE + "\n")
 
 
 def display_error_message(error_message: str):
@@ -323,8 +331,8 @@ def display_error_message(error_message: str):
 def display_leaderboard(scores: List[Tuple[str, int]]):
     """Displays the leaderboard. Highscores of all time"""
 
-    print(SEPERATOR)
-    print(LEADERBOARD_BANNER)
+    print(Fore.CYAN + SEPERATOR)
+    print(Fore.LIGHTYELLOW_EX + LEADERBOARD_BANNER)
     for score in scores:
         try:
             print(f"{score[0]}: {score[1]} points")
@@ -332,7 +340,7 @@ def display_leaderboard(scores: List[Tuple[str, int]]):
             print("ValueError displaying leaderboard player name or score")
         except IndexError:
             print("IndexError displaying leaderboard player name or score")
-    print(SEPERATOR)
+    print(Fore.CYAN + SEPERATOR)
 
 
 def display_end_of_game(scores):
@@ -342,22 +350,26 @@ def display_end_of_game(scores):
     scores: {player_name: str, score_rounds: [int,int,int], total: [int]}
     """
 
-    print(SEPERATOR)
-    print("Congratulations! You have completed the game!")
-    print(SEPERATOR)
+    print(Back.BLUE + Style.BRIGHT + Fore.LIGHTMAGENTA_EX + SEPERATOR)
+    print(
+        Style.BRIGHT
+        + Fore.LIGHTMAGENTA_EX
+        + "Congratulations! You have completed the game!".center(50)
+    )
+    print(Back.BLUE + Style.BRIGHT + Fore.LIGHTMAGENTA_EX + SEPERATOR)
 
-    print(f"\nPlayer : {scores['player_name']}\n")
+    print(Fore.CYAN + f"\nPlayer : {scores['player_name']}\n")
 
-    print("-" * 30)
-    print(f"{'ROUND':<15}{'POINTS':>10}")
-    print("-" * 30)
+    print(Fore.CYAN + "-" * 30)
+    print(Fore.CYAN + f"{'ROUND':<15}{'POINTS':>10}")
+    print(Fore.CYAN + "-" * 30)
 
     for i, score in enumerate(scores["score_rounds"], start=1):
-        print(f"{f'Round {i}':<15}{score:>10}")
+        print(Fore.CYAN + f"{f'Round {i}':<15}{score:>10}")
 
-    print("-" * 30)
-    print(f"{'TOTAL':<15}{scores['total']:>10}")
-    print("-" * 30)
+    print(Fore.CYAN + "-" * 30)
+    print(Fore.CYAN + f"{'TOTAL':<15}{scores['total']:>10}")
+    print(Fore.CYAN + "-" * 30)
 
 
 def replay_menu():
@@ -366,6 +378,6 @@ def replay_menu():
     :return:
     """
 
-    print(SEPERATOR)
+    print(Back.BLUE + Style.BRIGHT + Fore.LIGHTMAGENTA_EX + SEPERATOR)
     choice = multiple_choice_menu("Play again?", ["Yes", "No"])
     return choice
