@@ -72,13 +72,12 @@ def play_round(question_data):
     """
 
     menu.display_new_round()
-    print(f"Answer: {question_data['answer']}")
-    print(f"Options: {question_data['options']}")
+
     # prompt player
     options_shuffled = shuffle_options(
         question_data["answer"], question_data["options"]
     )
-    print(f"Options: {options_shuffled}")
+
     # track attempts
     for attempt in range(1, NUMBER_OF_HINTS + 1):
 
@@ -89,9 +88,10 @@ def play_round(question_data):
 
         # This will find the clue by matching the number: clue1, clue2, or clue3
         clue_to_show = question_data["hints"][attempt - 1]
-        print(f"Hint {attempt}:")
 
-        player_guess = menu.display_question(clue_to_show, options_shuffled)
+        player_guess = menu.display_question(
+            f"Hint {attempt}:" + clue_to_show, options_shuffled
+        )
         if player_guess is None:
             replay_game()
         # validate answer
