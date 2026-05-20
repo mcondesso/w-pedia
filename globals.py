@@ -16,7 +16,7 @@ class GameMode(Enum):
     WHO = "who"
     WHAT = "what"
     WHERE = "where"
-    WHEN = "when"
+    # WHEN = "when"
 
 
 class WhoCategory(Enum):
@@ -46,7 +46,7 @@ CATEGORY_MAP = {
     GameMode.WHO: WhoCategory,
     GameMode.WHAT: WhatCategory,
     GameMode.WHERE: WhereCategory,
-    GameMode.WHEN: WhenCategory,
+    # GameMode.WHEN: WhenCategory,
 }
 
 

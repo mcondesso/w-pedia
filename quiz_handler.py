@@ -26,7 +26,9 @@ class BaseQuizHandler(ABC):
     def generate_quiz(self):
         self.validate()
 
-        wiki_data = wiki.get_random_wiki_data(mode=self.game_mode, category=self.game_category.value)
+        wiki_data = wiki.get_random_wiki_data(
+            mode=self.game_mode, category=self.game_category.value
+        )
 
         quiz = generate_quiz(wiki_data)
 
@@ -66,18 +68,18 @@ class WhereHandler(BaseQuizHandler):
         pass
 
 
-class WhenHandler(BaseQuizHandler):
-    game_mode = GameMode.WHEN
-
-    def process(self):
-        pass
+# class WhenHandler(BaseQuizHandler):
+#     game_mode = GameMode.WHEN
+#
+#     def process(self):
+#         pass
 
 
 HANDLER_MAP = {
     GameMode.WHO: WhoHandler,
     GameMode.WHAT: WhatHandler,
     GameMode.WHERE: WhereHandler,
-    GameMode.WHEN: WhenHandler,
+    # GameMode.WHEN: WhenHandler,
 }
 
 
