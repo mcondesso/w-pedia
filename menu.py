@@ -196,7 +196,7 @@ def show_menu():
     elif choice == "Instructions":
 
         print("\nInstructions:")
-        print("This manu is under construction.")
+        print("This menu is under construction.")
         print("Learn while having fun and exploring new ideas!")
         show_menu()
 
