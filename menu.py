@@ -104,14 +104,11 @@ def multiple_choice_menu(question: str, choices: list[str]):
             if 1 <= input_chosen <= len(choices):
                 choice = choices[input_chosen - 1]
             else:
-                print(
-                    Fore.YELLOW + f"Please enter a number between 1 and {len(choices)}."
-                )
+                raise ValueError()
 
-        except ValueError as e:
+        except ValueError:
             print(
-                Fore.RED
-                + f"Could not convert your option to an integer, try again! \n {e}"
+                Fore.YELLOW + f"Please enter a number between 1 and {len(choices)}."
             )
 
     return choice
