@@ -5,6 +5,9 @@ from openai import OpenAI
 from dotenv import load_dotenv
 
 
+NUM_TRIES = 3
+
+
 class AIError(Exception):
     """Base exception class for errors thrown by the ai module."""
 
@@ -26,12 +29,16 @@ client = OpenAI(
 
 
 def validate_input(wiki_data: list[dict]):
+    if not wiki_data:
+        raise InvalidInputError()
     for entry in wiki_data:
         if not entry.get("answer", "") or not entry.get("summary", ""):
             raise InvalidInputError()
 
 
 def validate_output(wiki_data: list[dict], quiz_data: list[dict]):
+    if not quiz_data:
+        raise InvalidOutputError()
     if len(wiki_data) != len(quiz_data):
         raise InvalidOutputError()
     answers = [output["answer"] for output in quiz_data]
@@ -70,27 +77,20 @@ def generate_quiz(wiki_data: list[dict]) -> list[dict] | None:
 
     print("Generating quiz, please wait...")
 
-    try:
-        response = client.responses.create(
-            model="gpt-5-nano",
-            instructions=instructions,
-            input=prompt,
-        )
-    except Exception as error:
-        print(f"Invalid response from OpenAI: {error}")
-        return None
-
-    try:
-        quiz = json.loads(response.output_text)
-    except Exception as error:
-        print(f"Error parsing reply from OpenAI: {error}")
-        return None
-
-    # Validate response from OpenAI
-    try:
-        validate_output(wiki_data, quiz)
-    except AIError as error:
-        print("Error parsing response from openAI: ", error)
-        return None
+    quiz = None
+    for i in range(NUM_TRIES):
+        try:
+            response = client.responses.create(
+                model="gpt-5-nano",
+                instructions=instructions,
+                input=prompt,
+            )
+            quiz = json.loads(response.output_text)
+            validate_output(wiki_data, quiz)
+        except Exception as error:
+            print(f"Invalid response from OpenAI: {error}")
+            print("Trying again...")
+        else:
+            break
 
     return quiz
