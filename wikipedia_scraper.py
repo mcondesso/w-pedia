@@ -291,64 +291,59 @@ PLACES = {
 }
 
 EVENTS = {
-    "historical": [
+    "military": [
         "World War I",
         "World War II",
         "Cold War",
         "Vietnam War",
+        "Korean War",
         "American Civil War",
-        "French Revolution",
-        "Russian Revolution",
-        "Industrial Revolution",
-        "Battle of Waterloo",
-        "Battle of Hastings",
+        "Spanish Civil War",
         "Napoleonic Wars",
         "Crusades",
-        "Fall of the Berlin Wall",
+        "French Revolution",
+        "Russian Revolution",
         "American Revolution",
-        "Spanish Civil War",
-        "Normandy Landings",
-        "Attack on Pearl Harbor",
-        "9/11 attacks",
-        "Boston Tea Party",
-        "Cuban Missile Crisis",
+        "Battle of Waterloo",
+        "Battle of Hastings",
         "Battle of Stalingrad",
+        "Normandy landings",
+        "Attack on Pearl Harbor",
+        "Cuban Missile Crisis",
         "Fall of Constantinople",
-        "Black Death",
-        "Signing of the Magna Carta",
-        "Apollo 11 Moon Landing"
+        "Six-Day War",
+        "Gulf War",
+        "War on Terror",
+        "Russian invasion of Ukraine",
+        "Falklands War",
+        "Trojan War"
     ],
-    "discoveries": [
-        "Discovery of gravity",
-        "Theory of relativity",
-        "Discovery of penicillin",
-        "Discovery of electricity",
-        "Discovery of DNA structure",
-        "Heliocentric theory",
-        "Discovery of radioactivity",
-        "Discovery of evolution",
-        "Invention of the printing press",
-        "Invention of the telephone",
-        "Invention of the Internet",
-        "Invention of the World Wide Web",
-        "Invention of the airplane",
-        "First Moon Landing",
+    "historical": [
+        "Apollo 11",
+        "Titanic",
+        "Chernobyl disaster",
+        "Fall of the Berlin Wall",
+        "French Revolution",
+        "Industrial Revolution",
+        "Renaissance",
+        "Black Death",
         "Discovery of America",
-        "Discovery of fire",
-        "Discovery of vaccines",
-        "Discovery of antibiotics",
-        "Discovery of X-rays",
-        "Discovery of the atom",
-        "Discovery of Neptune",
-        "Discovery of Pluto",
-        "Discovery of insulin",
-        "Discovery of anesthesia",
-        "Creation of artificial intelligence",
-        "Discovery of quantum mechanics",
-        "Invention of the steam engine",
-        "Invention of the computer",
-        "Invention of the smartphone",
-        "Human Genome Project"
+        "First Moon Landing",
+        "Signing of the Magna Carta",
+        "Boston Tea Party",
+        "Watergate scandal",
+        "Woodstock Festival",
+        "Live Aid",
+        "COVID-19 pandemic",
+        "Hindenburg disaster",
+        "Fukushima disaster",
+        "Great Fire of London",
+        "Pompeii",
+        "Human Genome Project",
+        "Sputnik 1",
+        "California Gold Rush",
+        "Stock Market Crash of 1929",
+        "Moon landing conspiracy theories"
     ]
 }
 
@@ -448,9 +443,9 @@ def get_random_wiki_data(mode: GameMode, category: str):
         return generate_objects_data(list_of_places)
 
     # "What" mode: Search for random events in category "countries" or "cities"
-    if mode == GameMode.WHERE:
-        list_of_places = get_random_objects(GameMode.WHERE, category)
-        return generate_objects_data(list_of_places)
+    if mode == GameMode.WHAT:
+        list_of_events = get_random_objects(GameMode.WHAT, category)
+        return generate_objects_data(list_of_events)
 
     else:
         print("Error! Game mode not implemented yet.")
@@ -458,15 +453,12 @@ def get_random_wiki_data(mode: GameMode, category: str):
 
 
 """
---This lines were for testing--
-
 def run():
-    test = get_random_wiki_data(mode=GameMode.WHO, category="influential")
+    test = get_random_wiki_data(mode=GameMode.WHAT, category="military")
     print("-- Testing: --")
     for element in test:
         print(f"{element["answer"]} : \n{element["summary"]}")
-        print("-"*20)
-
+        print("-" * 20)
 
 run()
-"""""
+"""
