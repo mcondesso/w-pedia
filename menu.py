@@ -328,19 +328,53 @@ def display_error_message(error_message: str):
     print(SEPERATOR)
 
 
-def display_leaderboard(scores: List[Tuple[str, int]]):
+def prompt_display_leaderboard(leaderboard: List[Dict]):
+    """Ask the user if they want to display the leaderboard."""
+
+    print(Back.BLUE + Style.BRIGHT + Fore.LIGHTMAGENTA_EX + SEPERATOR)
+    choice = multiple_choice_menu("Show Leaderboard?", ["Yes", "No"])
+    if choice == "Yes":
+        display_leaderboard(leaderboard)
+    elif choice == "No":
+        return
+    else:
+        print("Invalid choice. Please enter Yes or No.")
+        prompt_display_leaderboard(leaderboard)
+    return
+
+
+def display_leaderboard(leaderboard: List[Dict]):
     """Displays the leaderboard. Highscores of all time"""
 
-    print(Fore.CYAN + SEPERATOR)
+    print(Back.BLUE + Style.BRIGHT + Fore.LIGHTMAGENTA_EX + SEPERATOR)
+    print(
+        Style.BRIGHT
+        + Fore.LIGHTMAGENTA_EX
+        + "Congratulations! You have completed the game!".center(50)
+    )
+    print(Back.LIGHTYELLOW_EX + Style.BRIGHT + Fore.BLUE + SEPERATOR)
+
     print(Fore.LIGHTYELLOW_EX + LEADERBOARD_BANNER)
-    for score in scores:
-        try:
-            print(f"{score[0]}: {score[1]} points")
-        except ValueError:
-            print("ValueError displaying leaderboard player name or score")
-        except IndexError:
-            print("IndexError displaying leaderboard player name or score")
-    print(Fore.CYAN + SEPERATOR)
+
+    print(Fore.MAGENTA + "-" * 50)
+    print(
+        Fore.MAGENTA + f"{'PLACE':<15}{'POINTS':>10}{'MAX ROUNDS':>10}{'MAX HINTS':>10}"
+    )
+    print(Fore.MAGENTA + "-" * 50)
+
+    if not leaderboard:
+        print(Fore.MAGENTA + "No scores yet...")
+    else:
+        for i, entry in enumerate(leaderboard, start=1):
+
+            player = entry.get("player", "-")
+            score = entry.get("score", 0)
+            rounds = entry.get("number_of_rounds", 0)
+            hints = entry.get("hints_per_round", 0)
+
+            print(Fore.MAGENTA + f"{i:<8}{player:<15}{score:>8}{rounds:>10}{hints:>10}")
+
+    print(Fore.MAGENTA + "-" * 50)
 
 
 def display_end_of_game(scores):

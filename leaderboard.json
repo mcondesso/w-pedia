@@ -1,0 +1,38 @@
+[
+    {
+        "player": "smart_vera",
+        "score": 10,
+        "number_of_rounds": 2,
+        "hints_per_round": 3
+    },
+    {
+        "player": "vera",
+        "score": 0,
+        "number_of_rounds": 2,
+        "hints_per_round": 3
+    },
+    {
+        "player": "vera",
+        "score": 0,
+        "number_of_rounds": 2,
+        "hints_per_round": 3
+    },
+    {
+        "player": "vera",
+        "score": 0,
+        "number_of_rounds": 2,
+        "hints_per_round": 3
+    },
+    {
+        "player": "vera",
+        "score": 0,
+        "number_of_rounds": 2,
+        "hints_per_round": 3
+    },
+    {
+        "player": "vera",
+        "score": 0,
+        "number_of_rounds": 2,
+        "hints_per_round": 3
+    }
+]

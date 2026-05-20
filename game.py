@@ -5,6 +5,7 @@ import random
 import sys
 
 import menu
+import scoring
 from quiz_handler import QuizHandler, QuizHandlerError
 from globals import *
 
@@ -185,6 +186,16 @@ def start_game():
         "total": total_score,
     }
     menu.display_end_of_game(scores=scores)
+
+    # update the leaderboard
+    leaderboard = scoring.update_leaderboard(
+        player=game_settings["player_name"],
+        score=total_score,
+        number_of_rounds=NUMBER_OF_ROUNDS,
+        hints_per_round=NUMBER_OF_HINTS,
+    )
+
+    menu.prompt_display_leaderboard(leaderboard)
 
     # restart
     replay_game()
