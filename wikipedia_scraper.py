@@ -392,15 +392,16 @@ def get_summary(object_name: str, sentences=3):
 
     Returns: dictionary with name and summary
     """
-    try:
-        summary = wikipedia.summary(object_name, sentences=sentences, auto_suggest=False)
-        return {"answer": object_name, "summary": summary}
+    for _ in range(NUMBER_OF_API_TRIES):
+        try:
+            summary = wikipedia.summary(object_name, sentences=sentences, auto_suggest=False)
+            return {"answer": object_name, "summary": summary}
 
-    except wikipedia.exceptions.PageError as e:
-        pass
+        except wikipedia.exceptions.PageError as e:
+            pass
 
-    except Exception as e:
-        print(f"Error for {object_name}: {e}")
+        except Exception as e:
+            print(f"Error for {object_name}: {e}")
 
 
 def generate_objects_data(list_elements: list, max_amount=NUMBER_OF_ROUNDS+1):
