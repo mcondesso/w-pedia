@@ -70,7 +70,7 @@ def get_player_name():
             continue
 
         # check length between 3 and 12
-        if len(player_name) <= 3 or len(player_name) >= 12:
+        if len(player_name) < 3 or len(player_name) >= 12:
             print(Fore.YELLOW + "Invalid name. use 3-12 letters only.")
             continue
 
@@ -107,9 +107,7 @@ def multiple_choice_menu(question: str, choices: list[str]):
                 raise ValueError()
 
         except ValueError:
-            print(
-                Fore.YELLOW + f"Please enter a number between 1 and {len(choices)}."
-            )
+            print(Fore.YELLOW + f"Please enter a number between 1 and {len(choices)}.")
 
     return choice
 
@@ -174,7 +172,7 @@ def show_welcome():
     print(Fore.MAGENTA + "and learning becomes an unforgettable adventure.\n")
 
 
-def show_menu():
+def show_main_menu():
     """
 
     :return:
@@ -184,40 +182,47 @@ def show_menu():
         "Main Menu", ["Start the game", "Instructions", "Settings", "Quit"]
     )
 
-    if choice == "Start the game":
-        game_mode, game_category, number_of_players, player_name = start_game()
-        return {
-            "game_mode": game_mode,
-            "game_category": game_category,
-            "number_of_players": number_of_players,
-            "player_name": player_name,
-        }
+    return choice
 
-    elif choice == "Instructions":
 
-        print("\nInstructions:")
-        print("This menu is under construction.")
-        print("Learn while having fun and exploring new ideas!")
-        show_menu()
+def display_instructions_menu():
+    """
+    Displays the instructions menu.
+    :return:
+    """
+    print("\nInstructions:")
+    print(Fore.MAGENTA + """
+    This is W-Pedia, a game where you can test your knowledge and expand your horizons.
+    You will be presented with a series of questions, and you need to choose the correct answer.
+    There will be a number of rounds and hints to guide you through the game.""")
+    print(Fore.MAGENTA + "Learn while having fun and exploring new ideas!")
 
-    elif choice == "Settings":
 
-        print("\nSettings menu coming soon!")
-        print("Here you will later customize your game experience.")
-        show_menu()
+# -----------------------------
+# SETTINGS
+# -----------------------------
 
-    elif choice == "Quit":
 
-        print("\nThank you for playing W-Pedia!")
-        print("See you again soon, explorer!\n")
-        show_menu()
+def display_settings_menu():
 
-        # TODO! make a quit_game() function or use quit_game() from game.py
+    return multiple_choice_menu("Settings", ["Change Rounds", "Change Hints", "Back"])
 
-    else:
 
-        print("\nInvalid choice.")
-        print("Please enter 1, 2, 3, or 4.")
+def display_change_rounds():
+    return multiple_choice_menu("How Many Rounds?", ["1", "2", "3", "4", "5"])
+
+
+def display_change_hints():
+    return multiple_choice_menu("How Many Hints?", ["1", "2", "3"])
+
+
+def display_quit():
+    """
+    Displays the quit menu.
+    :return:
+    """
+    print("\nThank you for playing W-Pedia!")
+    print("See you again soon, explorer!\n")
 
 
 def start_game():
@@ -338,9 +343,6 @@ def prompt_display_leaderboard(leaderboard: List[Dict]):
         display_leaderboard(leaderboard)
     elif choice == "No":
         return
-    else:
-        print("Invalid choice. Please enter Yes or No.")
-        prompt_display_leaderboard(leaderboard)
     return
 
 
