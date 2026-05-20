@@ -7,6 +7,24 @@
     },
     {
         "player": "vera",
+        "score": 6,
+        "number_of_rounds": 2,
+        "hints_per_round": 3
+    },
+    {
+        "player": "best_vera",
+        "score": 6,
+        "number_of_rounds": 2,
+        "hints_per_round": 3
+    },
+    {
+        "player": "gadg",
+        "score": 4,
+        "number_of_rounds": 2,
+        "hints_per_round": 3
+    },
+    {
+        "player": "vera",
         "score": 0,
         "number_of_rounds": 2,
         "hints_per_round": 3

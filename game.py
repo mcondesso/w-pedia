@@ -6,6 +6,7 @@ import sys
 
 import menu
 import scoring
+from menu import display_error_message
 from quiz_handler import QuizHandler, QuizHandlerError
 from globals import *
 
@@ -72,6 +73,7 @@ def play_round(question_data):
     Returns: score earned in the round
     """
 
+    points_earned = 0
     menu.display_new_round()
 
     # prompt player
@@ -80,7 +82,7 @@ def play_round(question_data):
     )
 
     # track attempts
-    
+
     is_correct = None
     for attempt in range(1, NUMBER_OF_HINTS + 1):
 
@@ -102,7 +104,9 @@ def play_round(question_data):
             is_correct = True
             points_earned = get_points(attempt)
             menu.display_result_answer(
-                is_correct=is_correct, points=points_earned, answer=question_data["answer"]
+                is_correct=is_correct,
+                points=points_earned,
+                answer=question_data["answer"],
             )
             break
 
@@ -130,6 +134,53 @@ def replay_game():
         print("Please enter 1 or 2.")
 
 
+def validate_game_settings(game_settings):
+    """
+    Validates the game settings before starting the game.
+    :return:
+    """
+    if not game_settings:
+        raise ValueError("Game settings cannot be empty.")
+
+    if not isinstance(game_settings, dict):
+        raise TypeError("Game settings must be a dictionary.")
+
+    required_keys = [
+        "player_name",
+        "game_mode",
+        "game_category",
+        "number_of_players",
+    ]
+    for key in required_keys:
+        if key not in game_settings:
+            raise KeyError(f"Missing required game setting: '{key}'")
+
+    player_name = game_settings["player_name"]
+    if not isinstance(player_name, str) or not player_name.strip():
+        raise ValueError("Player name must be a non-empty string.")
+
+    game_mode = game_settings["game_mode"]
+    if not isinstance(game_mode, GameMode):
+        raise TypeError("game_mode must be a valid GameMode enum.")
+
+    game_category = game_settings["game_category"]
+
+    valid_category_enum = CATEGORY_MAP[game_mode]
+
+    if not isinstance(game_category, valid_category_enum):
+        raise TypeError(
+            f"game_category must be a valid category for mode '{game_mode.value}'."
+        )
+
+    number_of_players = game_settings["number_of_players"]
+
+    if not isinstance(number_of_players, int):
+        raise TypeError("number_of_players must be an integer.")
+
+    if number_of_players <= 0:
+        raise ValueError("number_of_players must be greater than 0.")
+
+
 def initialize_game():
     """
     Get game mode, category, and player name from menu.py.
@@ -138,25 +189,32 @@ def initialize_game():
     """
     # The player picks a mode they want to play (WHO, WHAT, etc.) via menu
     game_settings = menu.main_menu()
-    player_name = game_settings["player_name"]
-    print("Reading Game Settings...")
-    # TODO! ADD validation for game_settings, check not empty and that its a valid enum.
+    if game_settings is None:
+        print("Alright...")
+        return None
+
+    print("Checking Game Settings...")
+
+    # validate game settings
+    try:
+        validate_game_settings(game_settings)
+    except (KeyError, TypeError, ValueError) as e:
+        menu.display_error_message(e)
+        start_game()
 
     return game_settings
 
 
 def start_game():
     """
-    This function runs the round loop,
-    tracks the total score,
-    and calls the final scoreboard.
-
-    Returns: total_score
-
+    This function runs the round loop, tracks the total score, and calls the final scoreboard.
     Main flow: Pick mode -> Pick category -> Play rounds -> Show score.
     """
 
     game_settings = initialize_game()
+    if game_settings is None:
+        print("Exiting the game...")
+        return
 
     # CALL TO API COMMENT OUT WHEN DEBUGGING ANYTHING BUT API
     # -------------

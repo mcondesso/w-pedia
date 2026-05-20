@@ -107,9 +107,7 @@ def multiple_choice_menu(question: str, choices: list[str]):
                 raise ValueError()
 
         except ValueError:
-            print(
-                Fore.YELLOW + f"Please enter a number between 1 and {len(choices)}."
-            )
+            print(Fore.YELLOW + f"Please enter a number between 1 and {len(choices)}.")
 
     return choice
 
@@ -210,9 +208,7 @@ def show_menu():
 
         print("\nThank you for playing W-Pedia!")
         print("See you again soon, explorer!\n")
-        show_menu()
-
-        # TODO! make a quit_game() function or use quit_game() from game.py
+        return None
 
     else:
 
