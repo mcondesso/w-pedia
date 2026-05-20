@@ -81,7 +81,6 @@ PEOPLE = {
         "Haile Gebrselassie",
         "Paavo Nurmi",
         "Abebe Bikila",
-        "Cristiano Ronaldo Nazário",
         "Xavi Hernández",
         "Andrés Iniesta",
         "Franz Beckenbauer",
