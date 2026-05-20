@@ -1,12 +1,29 @@
 import random
 from typing import Dict, List, Tuple
-
+from colorama import Fore, Style, init, Back
 from globals import GameMode, WhoCategory, CATEGORY_MAP
 
-INDENT = "     -----> "
+# Initialize colorama
+init(autoreset=True)
+
+
+INDENT = " " * 10
 SEPERATOR = "<:>:" * 40
 WARNING_SEPERATOR = "-<>-" * 20
 NEXT_ROUND_SEPERATOR = "¸,ø¤°`°¤ø,¸" * 20
+START_GAME_SEPERATOR = """
+               (( _______
+     _______     /\\O    O\\
+    /O     /\\   /  \\      \\
+   /   O  /O \\ / O  \\O____O\\ ))
+((/_____O/    \\    /O     /
+  \\O    O\\    / \\  /   O  /
+   \\O    O\\ O/   \\/_____O/
+    \\O____O\\/ )) mrf      ))
+  ((
+
+"""
+
 
 BAD_EMOTE = "     (x__x)     -" * 3
 NORMAL_EMOTE = "     (o.o)     -" * 3
@@ -38,16 +55,23 @@ def get_player_name():
     """
 
     while True:
-        player_name = input("\nWhat would you like to be addressed as: ").strip()
+        player_name = input(
+            f"\n{INDENT}What would you like to be addressed as: "
+        ).strip()
 
         # Check if empty
         if not player_name:
-            print("Player name cannot be empty. Please try again!")
+            print(Fore.YELLOW + "Player name cannot be empty. Please try again!")
             continue
 
         # Check for numbers
         if any(char.isdigit() for char in player_name):
-            print("Player name cannot contain numbers. Please try again!")
+            print(Fore.YELLOW + "Player name cannot contain numbers. Please try again!")
+            continue
+
+        # check length between 3 and 12
+        if len(player_name) <= 3 or len(player_name) >= 12:
+            print(Fore.YELLOW + "Invalid name. use 3-12 letters only.")
             continue
 
         else:
@@ -64,15 +88,14 @@ def multiple_choice_menu(question: str, choices: list[str]):
     """
     choice = None
     while not choice:
-        print(question)
+        print(Fore.LIGHTMAGENTA_EX + f"\n{INDENT}{question}")
 
         i = 1
         for c in choices:
-            print(f"{i}. {c}")
+            print(f"{INDENT}{i}. {c}")
             i += 1
 
-        input_str = input("\nEnter your choice: ")
-        # TODO! check the input_chosen it should not be larger or smaller than the choices list length.
+        input_str = input(Fore.LIGHTMAGENTA_EX + f"\n{INDENT}Enter your choice: ")
 
         try:
             input_chosen = int(input_str)
@@ -81,10 +104,15 @@ def multiple_choice_menu(question: str, choices: list[str]):
             if 1 <= input_chosen <= len(choices):
                 choice = choices[input_chosen - 1]
             else:
-                print(f"Please enter a number between 1 and {len(choices)}.")
+                print(
+                    Fore.YELLOW + f"Please enter a number between 1 and {len(choices)}."
+                )
 
         except ValueError as e:
-            print(f"Could not convert your option to an integer, try again! \n {e}")
+            print(
+                Fore.RED
+                + f"Could not convert your option to an integer, try again! \n {e}"
+            )
 
     return choice
 
@@ -105,8 +133,8 @@ def get_game_mode_from_user():
     # Convert selected string back to enum
     game_mode = next(mode for mode in game_modes if mode.value.title() == mode_choice)
 
-    print("\nAmazing choice!")
-    print(f"Welcome to {game_mode.value.title()} mode!")
+    print(Fore.BLUE + "\nAmazing choice!")
+    print(Fore.BLUE + f"Welcome to {game_mode.value.title()} mode!")
     return game_mode
 
 
@@ -130,8 +158,8 @@ def get_category_from_user(game_mode: GameMode):
         if category.value.replace("_", " ").title() == category_choice
     )
 
-    print("\nAmazing choice!")
-    print(f"Welcome to {category_choice} Category!")
+    print(Fore.BLUE + "\nAmazing choice!")
+    print(Fore.BLUE + f"Welcome to {category_choice} Category!")
     return game_category
 
 
@@ -140,13 +168,13 @@ def show_welcome():
     This function displays a welcome message.
     :return:
     """
-    print(SEPERATOR)
-    print("Welcome to W-Pedia".center(50))
-    print(SEPERATOR)
+    print(Back.BLUE + Style.BRIGHT + Fore.LIGHTMAGENTA_EX + SEPERATOR)
+    print(Style.BRIGHT + Fore.LIGHTMAGENTA_EX + "Welcome to W-Pedia".center(50))
+    print(Back.BLUE + Style.BRIGHT + Fore.LIGHTMAGENTA_EX + SEPERATOR)
 
-    print("\nWhere curiosity turns into knowledge,")
-    print("time turns into wisdom,")
-    print("and learning becomes an unforgettable adventure.\n")
+    print(Fore.MAGENTA + "\nWhere curiosity turns into knowledge,")
+    print(Fore.MAGENTA + "time turns into wisdom,")
+    print(Fore.MAGENTA + "and learning becomes an unforgettable adventure.\n")
 
 
 def show_menu():
@@ -200,7 +228,7 @@ def start_game():
     # set player name
     player_name = get_player_name()
 
-    print(f"\nWelcome, {player_name}!")
+    print(Fore.BLUE + f"\nWelcome, {player_name}!")
 
     # set game_mode
     game_mode = get_game_mode_from_user()
@@ -218,7 +246,7 @@ def randomize_options(answer, options):
 
 
 # -------------------------------------------
-# Functions for GAME
+# Functions for game.py
 # -------------------------------------------
 
 
@@ -228,7 +256,7 @@ def main_menu():
     show_welcome()
     game_settings = show_menu()
 
-    print(f"{INDENT}exiting main menu")
+    print(Fore.LIGHTMAGENTA_EX + START_GAME_SEPERATOR)
     return game_settings
 
 
@@ -242,7 +270,7 @@ def display_question(question, options):
 
     try:
         selected_answer = multiple_choice_menu(question, options)
-        print(f"You chose: {selected_answer}")
+        print(Fore.BLUE + f"You chose: {selected_answer}")
     except TypeError as e:
         display_error_message(e)
         return None
@@ -255,8 +283,23 @@ def display_new_round():
     Displays the new round message.
     :return:
     """
-    print("Congratulations! You have completed a round!")
     print(NEXT_ROUND_SEPERATOR)
+
+
+def display_result_answer(is_correct: bool, points: int, answer: str):
+    """
+    displays the result of the round.
+    """
+    if is_correct:
+        print(Fore.GREEN + GOOD_EMOTE)
+        print(Fore.GREEN + "Congratulations! You have completed a round!")
+        print(Fore.GREEN + f"You earned {points} points.")
+    else:
+        print(Fore.YELLOW + BAD_EMOTE)
+        print(
+            Fore.YELLOW
+            + f"You have unfortunately exhausted all your tries! The answer was: {answer}"
+        )
 
 
 def display_error_message(error_message: str):
@@ -267,10 +310,10 @@ def display_error_message(error_message: str):
     """
 
     print(SEPERATOR)
-    print("Oops! Something went wrong. ")
+    print(Fore.RED + "Oops! Something went wrong. ")
 
-    print(WARNING_SEPERATOR)
-    print(f"Error: {error_message}")
+    print(Fore.YELLOW + WARNING_SEPERATOR)
+    print(Fore.RED + f"Error: {error_message}")
     print(WARNING_SEPERATOR)
 
     print("We're working on it. Please try again!")
@@ -301,11 +344,20 @@ def display_end_of_game(scores):
 
     print(SEPERATOR)
     print("Congratulations! You have completed the game!")
-    print("\n")
-    print(f"Player: {scores['player_name']}")
-    for score in scores["score_rounds"]:
-        print(f"Round {scores['score_rounds'].index(score) + 1}: {score} points")
-    print(f"Total: {scores['total']} points")
+    print(SEPERATOR)
+
+    print(f"\nPlayer : {scores['player_name']}\n")
+
+    print("-" * 30)
+    print(f"{'ROUND':<15}{'POINTS':>10}")
+    print("-" * 30)
+
+    for i, score in enumerate(scores["score_rounds"], start=1):
+        print(f"{f'Round {i}':<15}{score:>10}")
+
+    print("-" * 30)
+    print(f"{'TOTAL':<15}{scores['total']:>10}")
+    print("-" * 30)
 
 
 def replay_menu():
