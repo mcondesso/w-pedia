@@ -92,6 +92,6 @@ def generate_quiz(wiki_data: list[dict]) -> list[dict] | None:
             print("Trying again...")
         else:
             break
-    
+
     print("Quiz successfully generated!")
     return quiz

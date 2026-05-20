@@ -422,7 +422,7 @@ def generate_objects_data(list_elements: list, max_amount=3):
     return results
 
 
-def get_random_wiki_data(mode: GameMode, category: str):
+def get_random_wiki_data(mode: GameMode, category: str) -> list[dict] | None:
     """
     Depending on the game mode, it will create a list of random objects, iterate through them
     and create a dictionary with their summary as an answer.
