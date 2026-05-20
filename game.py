@@ -98,7 +98,7 @@ def play_round(question_data):
         if player_guess.lower() == question_data["answer"].lower():
             points_earned = get_points(attempt)
             menu.display_result_answer(
-                is_correct=False, points=0, answer=question_data["answer"]
+                is_correct=True, points=points_earned, answer=question_data["answer"]
             )
             return points_earned
 
