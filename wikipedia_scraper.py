@@ -1,6 +1,6 @@
 import wikipedia
 import random
-from globals import GameMode
+from globals import GameMode, NUMBER_OF_API_TRIES, NUMBER_OF_ROUNDS
 
 PEOPLE = {
     "sports": [
@@ -403,7 +403,7 @@ def get_summary(object_name: str, sentences=3):
         print(f"Error for {object_name}: {e}")
 
 
-def generate_objects_data(list_elements: list, max_amount=3):
+def generate_objects_data(list_elements: list, max_amount=NUMBER_OF_ROUNDS+1):
     """
     Iterate a list of element to give the summary of each one.
     Args:
