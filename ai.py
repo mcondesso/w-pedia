@@ -69,11 +69,13 @@ def generate_quiz(wiki_data: list[dict]) -> list[dict] | None:
             )
             quiz = json.loads(response.output_text)
             validate_output(wiki_data, quiz)
+            break
         except Exception as error:
             print(f"Invalid response from OpenAI: {error}")
-            print("Trying again...")
-        else:
-            break
+            if i < NUMBER_OF_API_TRIES - 1:
+                print("Trying again...")
+            else:
+                raise InvalidOutputError()
 
     print("Quiz successfully generated!")
     return quiz

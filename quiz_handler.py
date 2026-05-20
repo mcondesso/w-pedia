@@ -5,8 +5,8 @@ from abc import ABC, abstractmethod
 from enum import Enum
 
 
-import wikipedia_scraper as wiki
-from ai import generate_quiz
+from wikipedia_scraper import get_random_wiki_data, WikipediaError
+from ai import generate_quiz, AIError
 from globals import (
     GameMode,
     WhoCategory,
@@ -15,6 +15,9 @@ from globals import (
     WhenCategory,
     CATEGORY_MAP,
 )
+
+class QuizHandlerError(Exception):
+    """Base exception class for errors thrown by the Quiz Handler module."""
 
 
 class BaseQuizHandler(ABC):
@@ -26,11 +29,17 @@ class BaseQuizHandler(ABC):
     def generate_quiz(self):
         self.validate()
 
-        wiki_data = wiki.get_random_wiki_data(
-            mode=self.game_mode, category=self.game_category.value
-        )
+        try:
+            wiki_data = get_random_wiki_data(
+                mode=self.game_mode, category=self.game_category.value
+            )
+        except WikipediaError as error:
+            raise QuizHandlerError from error
 
-        quiz = generate_quiz(wiki_data)
+        try:
+            quiz = generate_quiz(wiki_data)
+        except AIError as error:
+            raise QuizHandlerError from error
 
         # implement class specific processing , maybe for scoring?
         self.process()
