@@ -2,6 +2,15 @@ import wikipedia
 import random
 from globals import GameMode, NUMBER_OF_API_TRIES, NUMBER_OF_ROUNDS
 
+
+class WikipediaError(Exception):
+    """Base exception class for errors thrown by the wikipedia module"""
+
+
+class InvalidOutputError(WikipediaError):
+    """Thrown when the output from the wikipedia API is invalid"""
+
+
 PEOPLE = {
     "sports": [
         "Michael Jordan",
@@ -423,6 +432,14 @@ def generate_objects_data(list_elements: list, max_amount=NUMBER_OF_ROUNDS+1):
     return results
 
 
+def validate_output(wiki_data: list[dict]):
+    if not wiki_data:
+        raise InvalidOutputError("Empty data")
+    for entry in wiki_data:
+        if not entry.get("answer", "") or not entry.get("summary", ""):
+            raise InvalidOutputError("Wrong format")
+
+
 def get_random_wiki_data(mode: GameMode, category: str) -> list[dict] | None:
     """
     Depending on the game mode, it will create a list of random objects, iterate through them
@@ -440,6 +457,7 @@ def get_random_wiki_data(mode: GameMode, category: str) -> list[dict] | None:
     else:
         list_of_entities = get_random_objects(mode, category)
         wiki_data = generate_objects_data(list_of_entities)
+        validate_output(wiki_data)
 
         return wiki_data
 

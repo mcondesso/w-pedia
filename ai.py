@@ -12,10 +12,6 @@ class AIError(Exception):
     """Base exception class for errors thrown by the ai module."""
 
 
-class InvalidInputError(AIError):
-    """Thrown when the input to generate the quiz is invalid."""
-
-
 class InvalidOutputError(AIError):
     """Thrown when the output from the openAI API is invalid."""
 
@@ -26,14 +22,6 @@ client = OpenAI(
     # This is the default and can be omitted
     api_key=os.environ.get("OPENAI_API_KEY"),
 )
-
-
-def validate_input(wiki_data: list[dict]):
-    if not wiki_data:
-        raise InvalidInputError()
-    for entry in wiki_data:
-        if not entry.get("answer", "") or not entry.get("summary", ""):
-            raise InvalidInputError()
 
 
 def validate_output(wiki_data: list[dict], quiz_data: list[dict]):
@@ -48,12 +36,6 @@ def validate_output(wiki_data: list[dict], quiz_data: list[dict]):
 
 
 def generate_quiz(wiki_data: list[dict]) -> list[dict] | None:
-    try:
-        validate_input(wiki_data)
-    except AIError as error:
-        print("Error validating wikipedia data: ", error)
-        return None
-
     instructions = (
         "You are generating quiz items from structured input. "
         "Return exactly valid JSON and nothing else. "
