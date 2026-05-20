@@ -93,7 +93,7 @@ def play_round(question_data):
         hint_to_show = question_data["hints"][attempt - 1]
 
         player_guess = menu.display_question(
-            f"Hint {attempt}:" + hint_to_show, options_shuffled
+            f"Hint {attempt}: " + hint_to_show, options_shuffled
         )
         if player_guess is None:
             replay_game()
