@@ -245,7 +245,6 @@ PLACES = {
         "Peru"
     ],
     "cities": [
-        "New York",
         "Los Angeles",
         "Chicago",
         "Miami",
