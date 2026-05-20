@@ -3,11 +3,9 @@
 # generates questions, answers
 from abc import ABC, abstractmethod
 from enum import Enum
-from typing import List
 
-from unicodedata import category
 
-# import wikipedia_scraper as wiki
+import wikipedia_scraper as wiki
 from ai import generate_quiz
 from globals import (
     GameMode,
@@ -27,18 +25,8 @@ class BaseQuizHandler(ABC):
 
     def generate_quiz(self):
         self.validate()
-        # wiki_data = wiki.get_random_wiki_data(mode=self.game_mode, category=self.category)
-        wiki_data = [
-            {
-                "answer": "Gandalf",
-                "summary": "Gandalf is a Wizard from Lord of the Rings. "
-                "He is one of the main protagonists of the book/film series.",
-            },
-            {
-                "answer": "Mickey Mouse",
-                "summary": "He loves Minie Mouse and is a silly mouse.",
-            },
-        ]
+
+        wiki_data = wiki.get_random_wiki_data(mode=self.game_mode, category=self.game_category.value)
 
         quiz = generate_quiz(wiki_data)
 
