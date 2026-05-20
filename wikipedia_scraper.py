@@ -351,7 +351,7 @@ EVENTS = {
 wikipedia.set_user_agent("W-Pedia/1.0 (https://github.com/mcondesso/w-pedia/)")
 
 
-def get_random_objects(mode: GameMode, category: str, amount: int = 3):
+def get_random_objects(mode: GameMode, category: str, amount: int = 5):
     """
     Creates list of random objects (people or places) depending on game mode and category.
     Args:
@@ -397,18 +397,19 @@ def get_summary(object_name: str, sentences=3):
         summary = wikipedia.summary(object_name, sentences=sentences, auto_suggest=False)
         return {"answer": object_name, "summary": summary}
 
-    except wikipedia.exceptions.PageError:
-        print(f"The page for {object_name} could not be found.")
+    except wikipedia.exceptions.PageError as e:
+        pass
 
     except Exception as e:
         print(f"Error for {object_name}: {e}")
 
 
-def generate_objects_data(list_elements: list):
+def generate_objects_data(list_elements: list, max_amount=3):
     """
     Iterate a list of element to give the summary of each one.
     Args:
         list_elements: list
+        max_amount: int
 
     Returns: list of dictionaries
     """
@@ -417,7 +418,8 @@ def generate_objects_data(list_elements: list):
         element_summary = get_summary(element)
         if element_summary:
             results.append(element_summary)
-
+            if len(results) == max_amount:
+                break
     return results
 
 
