@@ -80,11 +80,13 @@ def play_round(question_data):
     )
 
     # track attempts
+    
+    is_correct = None
     for attempt in range(1, NUMBER_OF_HINTS + 1):
 
         if attempt > 1:
             menu.display_result_answer(
-                is_correct=None, points=0, answer=question_data["answer"]
+                is_correct=is_correct, points=0, answer=question_data["answer"]
             )
 
         # This will find the hint by matching the number: hint1, hint2, or hint3
@@ -97,18 +99,20 @@ def play_round(question_data):
             replay_game()
         # validate answer
         if player_guess.lower() == question_data["answer"].lower():
+            is_correct = True
             points_earned = get_points(attempt)
             menu.display_result_answer(
-                is_correct=True, points=points_earned, answer=question_data["answer"]
+                is_correct=is_correct, points=points_earned, answer=question_data["answer"]
             )
-            return points_earned
+            break
 
-    # if incorrect
-    menu.display_result_answer(
-        is_correct=False, points=0, answer=question_data["answer"]
-    )
-    points_earned = 0
+    if not is_correct:
+        menu.display_result_answer(
+            is_correct=False, points=0, answer=question_data["answer"]
+        )
+        points_earned = 0
 
+    menu.wait_for_enter()
     return points_earned
 
 

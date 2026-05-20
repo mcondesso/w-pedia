@@ -275,6 +275,10 @@ def display_question(question, options):
     return selected_answer
 
 
+def wait_for_enter():
+    input(Fore.LIGHTMAGENTA_EX + f"\n{INDENT}Press enter to continue... ")
+
+
 def display_new_round():
     """
     Displays the new round message.
