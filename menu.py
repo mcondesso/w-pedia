@@ -8,9 +8,9 @@ init(autoreset=True)
 
 
 INDENT = " " * 10
-SEPERATOR = "<:>:" * 40
-WARNING_SEPERATOR = "-<>-" * 20
-NEXT_ROUND_SEPERATOR = "¸,ø¤°`°¤ø,¸" * 20
+SEPERATOR = "<:>:" * 30
+WARNING_SEPERATOR = "-<>-" * 15
+NEXT_ROUND_SEPERATOR = "¸,ø¤°`°¤ø,¸" * 15
 START_GAME_SEPERATOR = """
                (( _______
      _______     /\\O    O\\
