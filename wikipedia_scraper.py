@@ -1,6 +1,7 @@
 import wikipedia
 import random
 from globals import GameMode, NUMBER_OF_API_TRIES, NUMBER_OF_ROUNDS
+from country_api import get_random_countries, CountriesError
 
 
 class WikipediaError(Exception):
@@ -379,7 +380,13 @@ def get_random_objects(mode: GameMode, category: str, amount: int = 5):
     if mode == GameMode.WHERE:
         if category not in PLACES:
             return []
-        return random.sample(PLACES[category], amount)
+        if category == "countries":
+            try:
+                return get_random_countries(amount)
+            except CountriesError as error:
+                raise WikipediaError from error
+        else:
+            return random.sample(PLACES[category], amount)
 
     # "What" game mode, iterate EVENTS
     if mode == GameMode.WHAT:
