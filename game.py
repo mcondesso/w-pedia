@@ -275,6 +275,8 @@ def main():
 
     settings = DEFAULT_SETTINGS.copy()
 
+    menu.show_welcome()
+
     while True:
 
         choice = menu.show_main_menu()
