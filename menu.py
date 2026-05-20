@@ -191,8 +191,11 @@ def display_instructions_menu():
     :return:
     """
     print("\nInstructions:")
-    print("This menu is under construction.")
-    print("Learn while having fun and exploring new ideas!")
+    print(Fore.MAGENTA + """
+    This is W-Pedia, a game where you can test your knowledge and expand your horizons.
+    You will be presented with a series of questions, and you need to choose the correct answer.
+    There will be a number of rounds and hints to guide you through the game.""")
+    print(Fore.MAGENTA + "Learn while having fun and exploring new ideas!")
 
 
 # -----------------------------

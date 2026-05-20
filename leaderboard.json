@@ -1,5 +1,11 @@
 [
     {
+        "player": "tim",
+        "score": 11,
+        "number_of_rounds": 3,
+        "hints_per_round": 3
+    },
+    {
         "player": "smart_vera",
         "score": 10,
         "number_of_rounds": 2,
@@ -12,6 +18,12 @@
         "hints_per_round": 3
     },
     {
+        "player": "david",
+        "score": 10,
+        "number_of_rounds": 2,
+        "hints_per_round": 3
+    },
+    {
         "player": "tom",
         "score": 8,
         "number_of_rounds": 3,
@@ -21,6 +33,18 @@
         "player": "tim",
         "score": 8,
         "number_of_rounds": 3,
+        "hints_per_round": 3
+    },
+    {
+        "player": "test two r",
+        "score": 8,
+        "number_of_rounds": 2,
+        "hints_per_round": 3
+    },
+    {
+        "player": "david",
+        "score": 8,
+        "number_of_rounds": 2,
         "hints_per_round": 3
     },
     {
@@ -33,30 +57,6 @@
         "player": "best_vera",
         "score": 6,
         "number_of_rounds": 2,
-        "hints_per_round": 3
-    },
-    {
-        "player": "john",
-        "score": 6,
-        "number_of_rounds": 3,
-        "hints_per_round": 3
-    },
-    {
-        "player": "tim",
-        "score": 6,
-        "number_of_rounds": 3,
-        "hints_per_round": 3
-    },
-    {
-        "player": "tim",
-        "score": 6,
-        "number_of_rounds": 3,
-        "hints_per_round": 3
-    },
-    {
-        "player": "tom",
-        "score": 6,
-        "number_of_rounds": 3,
         "hints_per_round": 3
     }
 ]
