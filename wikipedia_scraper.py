@@ -290,6 +290,68 @@ PLACES = {
     ]
 }
 
+EVENTS = {
+    "historical": [
+        "World War I",
+        "World War II",
+        "Cold War",
+        "Vietnam War",
+        "American Civil War",
+        "French Revolution",
+        "Russian Revolution",
+        "Industrial Revolution",
+        "Battle of Waterloo",
+        "Battle of Hastings",
+        "Napoleonic Wars",
+        "Crusades",
+        "Fall of the Berlin Wall",
+        "American Revolution",
+        "Spanish Civil War",
+        "Normandy Landings",
+        "Attack on Pearl Harbor",
+        "9/11 attacks",
+        "Boston Tea Party",
+        "Cuban Missile Crisis",
+        "Battle of Stalingrad",
+        "Fall of Constantinople",
+        "Black Death",
+        "Signing of the Magna Carta",
+        "Apollo 11 Moon Landing"
+    ],
+    "discoveries": [
+        "Discovery of gravity",
+        "Theory of relativity",
+        "Discovery of penicillin",
+        "Discovery of electricity",
+        "Discovery of DNA structure",
+        "Heliocentric theory",
+        "Discovery of radioactivity",
+        "Discovery of evolution",
+        "Invention of the printing press",
+        "Invention of the telephone",
+        "Invention of the Internet",
+        "Invention of the World Wide Web",
+        "Invention of the airplane",
+        "First Moon Landing",
+        "Discovery of America",
+        "Discovery of fire",
+        "Discovery of vaccines",
+        "Discovery of antibiotics",
+        "Discovery of X-rays",
+        "Discovery of the atom",
+        "Discovery of Neptune",
+        "Discovery of Pluto",
+        "Discovery of insulin",
+        "Discovery of anesthesia",
+        "Creation of artificial intelligence",
+        "Discovery of quantum mechanics",
+        "Invention of the steam engine",
+        "Invention of the computer",
+        "Invention of the smartphone",
+        "Human Genome Project"
+    ]
+}
+
 # Set user for Wiki API
 wikipedia.set_user_agent("W-Pedia/1.0 (https://github.com/mcondesso/w-pedia/)")
 
@@ -316,7 +378,13 @@ def get_random_objects(mode: GameMode, category: str, amount: int = 3):
         if category not in PLACES:
             return []
         return random.sample(PLACES[category], amount)
-    #
+
+    # "What" game mode, iterate EVENTS
+    if mode == GameMode.WHAT:
+        if category not in EVENTS:
+            return []
+        return random.sample(EVENTS[category], amount)
+    # No game mode:
     else:
         return []
 
@@ -369,12 +437,17 @@ def get_random_wiki_data(mode: GameMode, category: str):
     Returns: list of dictionaries
     """
 
-    # "Who" game mode: Gets random places and returns dicts with their summary"
+    # "Who" game mode: Search for random person in category "sports" or "influential"
     if mode == GameMode.WHO:
         list_of_people = get_random_objects(GameMode.WHO, category)
         return generate_objects_data(list_of_people)
 
     # "Where" mode: Search for random places in category "countries" or "cities"
+    if mode == GameMode.WHERE:
+        list_of_places = get_random_objects(GameMode.WHERE, category)
+        return generate_objects_data(list_of_places)
+
+    # "What" mode: Search for random events in category "countries" or "cities"
     if mode == GameMode.WHERE:
         list_of_places = get_random_objects(GameMode.WHERE, category)
         return generate_objects_data(list_of_places)
