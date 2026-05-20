@@ -2,9 +2,10 @@
 # Track player score
 # Show final score and option to replay
 import random
+import sys
 
 import menu
-from quiz_handler import QuizHandler
+from quiz_handler import QuizHandler, QuizHandlerError
 from globals import *
 
 EXAMPLE_QUIZ = [
@@ -150,7 +151,11 @@ def start_game():
     handler = QuizHandler.handle_quiz(
         mode=game_settings["game_mode"], game_category=game_settings["game_category"]
     )
-    quiz = handler.generate_quiz()
+    try:
+        quiz = handler.generate_quiz()
+    except QuizHandlerError:
+        print("Unable to generate quiz, please try again later.")
+        sys.exit(1)
 
     # ---------UNCOMMENT HERE WHEN TESTING UI
     # quiz = EXAMPLE_QUIZ

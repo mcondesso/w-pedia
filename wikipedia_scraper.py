@@ -1,6 +1,15 @@
 import wikipedia
 import random
-from globals import GameMode
+from globals import GameMode, NUMBER_OF_API_TRIES, NUMBER_OF_ROUNDS
+
+
+class WikipediaError(Exception):
+    """Base exception class for errors thrown by the wikipedia module"""
+
+
+class InvalidOutputError(WikipediaError):
+    """Thrown when the output from the wikipedia API is invalid"""
+
 
 PEOPLE = {
     "sports": [
@@ -101,8 +110,7 @@ PEOPLE = {
         "Bjørn Dæhlie",
         "Ole Einar Bjørndalen",
         "Tony Hawk",
-        "Kelly Slater",
-        "Michael Johnson"
+        "Kelly Slater"
     ],
     "influential": [
         "Alexander the Great",
@@ -392,18 +400,19 @@ def get_summary(object_name: str, sentences=3):
 
     Returns: dictionary with name and summary
     """
-    try:
-        summary = wikipedia.summary(object_name, sentences=sentences, auto_suggest=False)
-        return {"answer": object_name, "summary": summary}
+    for _ in range(NUMBER_OF_API_TRIES):
+        try:
+            summary = wikipedia.summary(object_name, sentences=sentences, auto_suggest=False)
+            return {"answer": object_name, "summary": summary}
 
-    except wikipedia.exceptions.PageError as e:
-        pass
+        except wikipedia.exceptions.PageError as e:
+            pass
 
-    except Exception as e:
-        print(f"Error for {object_name}: {e}")
+        except Exception as e:
+            print(f"Error for {object_name}: {e}")
 
 
-def generate_objects_data(list_elements: list, max_amount=3):
+def generate_objects_data(list_elements: list, max_amount=NUMBER_OF_ROUNDS+1):
     """
     Iterate a list of element to give the summary of each one.
     Args:
@@ -422,7 +431,15 @@ def generate_objects_data(list_elements: list, max_amount=3):
     return results
 
 
-def get_random_wiki_data(mode: GameMode, category: str):
+def validate_output(wiki_data: list[dict]):
+    if not wiki_data:
+        raise InvalidOutputError("Empty data")
+    for entry in wiki_data:
+        if not entry.get("answer", "") or not entry.get("summary", ""):
+            raise InvalidOutputError("Wrong format")
+
+
+def get_random_wiki_data(mode: GameMode, category: str) -> list[dict] | None:
     """
     Depending on the game mode, it will create a list of random objects, iterate through them
     and create a dictionary with their summary as an answer.
@@ -433,24 +450,16 @@ def get_random_wiki_data(mode: GameMode, category: str):
     Returns: list of dictionaries
     """
 
-    # "Who" game mode: Search for random person in category "sports" or "influential"
-    if mode == GameMode.WHO:
-        list_of_people = get_random_objects(GameMode.WHO, category)
-        return generate_objects_data(list_of_people)
-
-    # "Where" mode: Search for random places in category "countries" or "cities"
-    if mode == GameMode.WHERE:
-        list_of_places = get_random_objects(GameMode.WHERE, category)
-        return generate_objects_data(list_of_places)
-
-    # "What" mode: Search for random events in category "countries" or "cities"
-    if mode == GameMode.WHAT:
-        list_of_events = get_random_objects(GameMode.WHAT, category)
-        return generate_objects_data(list_of_events)
-
-    else:
+    if mode not in {GameMode.WHO, GameMode.WHERE, GameMode.WHAT}:
         print("Error! Game mode not implemented yet.")
         return None
+    else:
+        list_of_entities = get_random_objects(mode, category)
+        wiki_data = generate_objects_data(list_of_entities)
+        validate_output(wiki_data)
+
+        return wiki_data
+
 
 
 """
