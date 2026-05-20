@@ -4,7 +4,7 @@ from enum import Enum
 # GLOBALS
 # --------------------------------
 
-NUMBER_OF_ROUNDS = 2
+NUMBER_OF_ROUNDS = 3
 NUMBER_OF_HINTS = 3
 NUMBER_OF_API_TRIES = 3
 
