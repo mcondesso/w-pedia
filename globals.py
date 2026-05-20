@@ -26,15 +26,13 @@ class WhoCategory(Enum):
 
 
 class WhatCategory(Enum):
-    ANIMALS = "animals"
-    KITCHEN_ITEMS = "kitchen_items"
-    TECHNOLOGY = "technology"
+    HISTORICAL = "historical"
+    MILITARY = "military"
 
 
 class WhereCategory(Enum):
-    MONUMENTS = "monuments"
+    COUNTRIES = "countries"
     CITIES = "cities"
-    NATIONAL_PARKS = "national_parks"
 
 
 class WhenCategory(Enum):
