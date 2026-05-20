@@ -6,6 +6,7 @@ from enum import Enum
 
 NUMBER_OF_ROUNDS = 2
 NUMBER_OF_HINTS = 3
+NUMBER_OF_API_TRIES = 3
 
 
 class GameMode(Enum):

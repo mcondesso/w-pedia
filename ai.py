@@ -5,7 +5,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 
 
-NUM_TRIES = 3
+from globals import NUMBER_OF_API_TRIES
 
 
 class AIError(Exception):
@@ -78,7 +78,7 @@ def generate_quiz(wiki_data: list[dict]) -> list[dict] | None:
     print("Generating quiz, please wait...")
 
     quiz = None
-    for i in range(NUM_TRIES):
+    for i in range(NUMBER_OF_API_TRIES):
         try:
             response = client.responses.create(
                 model="gpt-5-nano",
