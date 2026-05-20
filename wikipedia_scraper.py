@@ -434,24 +434,15 @@ def get_random_wiki_data(mode: GameMode, category: str) -> list[dict] | None:
     Returns: list of dictionaries
     """
 
-    # "Who" game mode: Search for random person in category "sports" or "influential"
-    if mode == GameMode.WHO:
-        list_of_people = get_random_objects(GameMode.WHO, category)
-        return generate_objects_data(list_of_people)
-
-    # "Where" mode: Search for random places in category "countries" or "cities"
-    if mode == GameMode.WHERE:
-        list_of_places = get_random_objects(GameMode.WHERE, category)
-        return generate_objects_data(list_of_places)
-
-    # "What" mode: Search for random events in category "countries" or "cities"
-    if mode == GameMode.WHAT:
-        list_of_events = get_random_objects(GameMode.WHAT, category)
-        return generate_objects_data(list_of_events)
-
-    else:
+    if mode not in {GameMode.WHO, GameMode.WHERE, GameMode.WHAT}:
         print("Error! Game mode not implemented yet.")
         return None
+    else:
+        list_of_entities = get_random_objects(mode, category)
+        wiki_data = generate_objects_data(list_of_entities)
+
+        return wiki_data
+
 
 
 """
