@@ -205,7 +205,7 @@ def display_instructions_menu():
 
 def display_settings_menu():
 
-    return multiple_choice_menu("Settings", ["Change number of Rounds", "Change number of Hints", "Back"])
+    return multiple_choice_menu("Settings", ["Change number of rounds", "Change number of tries/hints", "Back"])
 
 
 def display_change_rounds():
@@ -213,7 +213,7 @@ def display_change_rounds():
 
 
 def display_change_hints():
-    return multiple_choice_menu("How Many Hints?", ["1", "2", "3"])
+    return multiple_choice_menu("How Many Hints or Tries?", ["1", "2", "3"])
 
 
 def display_quit():

@@ -251,14 +251,14 @@ def handle_settings(settings):
 
         choice = menu.display_settings_menu()
 
-        if choice == "Change Rounds":
+        if choice == "Change number of rounds":
 
             rounds = int(menu.display_change_rounds())
 
             settings["number_of_rounds"] = rounds
             globals.NUMBER_OF_ROUNDS = rounds
 
-        elif choice == "Change Hints":
+        elif choice == "Change number of tries/hints":
 
             hints = int(menu.display_change_hints())
 
