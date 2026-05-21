@@ -1,7 +1,7 @@
 import wikipedia
 import random
-from globals import GameMode, NUMBER_OF_API_TRIES, NUMBER_OF_ROUNDS
-from country_api import get_random_countries, CountriesError
+from src.globals import GameMode, NUMBER_OF_API_TRIES, NUMBER_OF_ROUNDS
+from src.country_api import get_random_countries, CountriesError
 
 
 class WikipediaError(Exception):

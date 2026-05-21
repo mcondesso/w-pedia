@@ -4,12 +4,11 @@
 import random
 import sys
 
-import globals
-import menu
-import scoring
-from menu import display_error_message, display_change_rounds
-from quiz_handler import QuizHandler, QuizHandlerError
-from globals import *
+from src import globals
+from src import menu
+from src import scoring
+from src.quiz_handler import QuizHandler, QuizHandlerError
+from src.globals import *
 
 EXAMPLE_QUIZ = [
     {

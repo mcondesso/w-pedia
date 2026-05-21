@@ -1,4 +1,4 @@
-import game
+from src import game
 
 
 def start():

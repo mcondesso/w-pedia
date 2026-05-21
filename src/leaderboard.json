@@ -1,0 +1,62 @@
+[
+    {
+        "player": "Yuval",
+        "score": 15,
+        "number_of_rounds": 3,
+        "hints_per_round": 3
+    },
+    {
+        "player": "tim",
+        "score": 11,
+        "number_of_rounds": 3,
+        "hints_per_round": 3
+    },
+    {
+        "player": "Juan",
+        "score": 11,
+        "number_of_rounds": 3,
+        "hints_per_round": 3
+    },
+    {
+        "player": "smart_vera",
+        "score": 10,
+        "number_of_rounds": 2,
+        "hints_per_round": 3
+    },
+    {
+        "player": "vera",
+        "score": 10,
+        "number_of_rounds": 3,
+        "hints_per_round": 3
+    },
+    {
+        "player": "david",
+        "score": 10,
+        "number_of_rounds": 2,
+        "hints_per_round": 3
+    },
+    {
+        "player": "tom",
+        "score": 8,
+        "number_of_rounds": 3,
+        "hints_per_round": 3
+    },
+    {
+        "player": "tim",
+        "score": 8,
+        "number_of_rounds": 3,
+        "hints_per_round": 3
+    },
+    {
+        "player": "test two r",
+        "score": 8,
+        "number_of_rounds": 2,
+        "hints_per_round": 3
+    },
+    {
+        "player": "david",
+        "score": 8,
+        "number_of_rounds": 2,
+        "hints_per_round": 3
+    }
+]

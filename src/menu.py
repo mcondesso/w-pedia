@@ -1,7 +1,7 @@
 import random
 from typing import Dict, List, Tuple
 from colorama import Fore, Style, init, Back
-from globals import GameMode, WhoCategory, CATEGORY_MAP
+from src.globals import GameMode, WhoCategory, CATEGORY_MAP
 
 # Initialize colorama
 init(autoreset=True)

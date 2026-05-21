@@ -5,9 +5,9 @@ from abc import ABC, abstractmethod
 from enum import Enum
 
 
-from wikipedia_scraper import get_random_wiki_data, WikipediaError
-from ai import generate_quiz, AIError
-from globals import (
+from src.wikipedia_scraper import get_random_wiki_data, WikipediaError
+from src.ai import generate_quiz, AIError
+from src.globals import (
     GameMode,
     WhoCategory,
     WhatCategory,

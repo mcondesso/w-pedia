@@ -5,7 +5,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 
 
-from globals import NUMBER_OF_API_TRIES
+from src.globals import NUMBER_OF_API_TRIES
 
 
 class AIError(Exception):
