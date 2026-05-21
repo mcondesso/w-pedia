@@ -1,6 +1,3 @@
-# Hardcoded lists with wikipedia URLs of people for each category
-# Game Modes : Who, What, Where, When?
-# generates questions, answers
 from abc import ABC, abstractmethod
 from enum import Enum
 
@@ -10,11 +7,9 @@ from src.ai import generate_quiz, AIError
 from src.globals import (
     GameMode,
     WhoCategory,
-    WhatCategory,
-    WhereCategory,
-    WhenCategory,
     CATEGORY_MAP,
 )
+
 
 class QuizHandlerError(Exception):
     """Base exception class for errors thrown by the Quiz Handler module."""

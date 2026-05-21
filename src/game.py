@@ -87,7 +87,6 @@ def play_round(question_data, settings, num_round):
 
     is_correct = None
     for attempt in range(1, settings["number_of_hints"] + 1):
-
         if attempt > 1:
             menu.display_result_answer(
                 is_correct=is_correct, points=0, answer=question_data["answer"]
@@ -212,9 +211,8 @@ def start_game(settings):
     # The player plays the required number of rounds
     max_rounds = min(settings["number_of_rounds"], len(quiz))
     for i in range(max_rounds):
-
         current_question = quiz[i]
-        tmp_score = play_round(current_question, settings, i+1)
+        tmp_score = play_round(current_question, settings, i + 1)
         score_rounds.append(tmp_score)
         total_score += tmp_score
 
@@ -247,25 +245,21 @@ def start_game(settings):
 def handle_settings(settings):
 
     while True:
-
         choice = menu.display_settings_menu()
 
         if choice == "Change number of rounds":
-
             rounds = int(menu.display_change_rounds())
 
             settings["number_of_rounds"] = rounds
             globals.NUMBER_OF_ROUNDS = rounds
 
         elif choice == "Change number of tries/hints":
-
             hints = int(menu.display_change_hints())
 
             settings["number_of_hints"] = hints
             globals.NUMBER_OF_HINTS = hints
 
         elif choice == "Back":
-
             return settings
 
 
@@ -277,7 +271,6 @@ def main():
     menu.show_welcome()
 
     while True:
-
         choice = menu.show_main_menu()
 
         if choice == "Start the game":

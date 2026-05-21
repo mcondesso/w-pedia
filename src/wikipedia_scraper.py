@@ -111,7 +111,7 @@ PEOPLE = {
         "Bjørn Dæhlie",
         "Ole Einar Bjørndalen",
         "Tony Hawk",
-        "Kelly Slater"
+        "Kelly Slater",
     ],
     "influential": [
         "Alexander the Great",
@@ -187,8 +187,8 @@ PEOPLE = {
         "Leo Tolstoy",
         "Victor Hugo",
         "Frida Kahlo",
-        "Andy Warhol"
-    ]
+        "Andy Warhol",
+    ],
 }
 
 PLACES = {
@@ -242,7 +242,7 @@ PLACES = {
         "Ireland",
         "Cuba",
         "Chile",
-        "Peru"
+        "Peru",
     ],
     "cities": [
         "Los Angeles",
@@ -293,8 +293,8 @@ PLACES = {
         "Karachi",
         "Bangalore",
         "Honolulu",
-        "Monaco"
-    ]
+        "Monaco",
+    ],
 }
 
 EVENTS = {
@@ -323,7 +323,7 @@ EVENTS = {
         "War on Terror",
         "Russian invasion of Ukraine",
         "Falklands War",
-        "Trojan War"
+        "Trojan War",
     ],
     "historical": [
         "Apollo 11",
@@ -350,8 +350,8 @@ EVENTS = {
         "Sputnik 1",
         "California Gold Rush",
         "Stock Market Crash of 1929",
-        "Moon landing conspiracy theories"
-    ]
+        "Moon landing conspiracy theories",
+    ],
 }
 
 # Set user for Wiki API
@@ -408,7 +408,9 @@ def get_summary(object_name: str, sentences=3):
     """
     for _ in range(NUMBER_OF_API_TRIES):
         try:
-            summary = wikipedia.summary(object_name, sentences=sentences, auto_suggest=False)
+            summary = wikipedia.summary(
+                object_name, sentences=sentences, auto_suggest=False
+            )
             return {"answer": object_name, "summary": summary}
 
         except wikipedia.exceptions.PageError as e:
@@ -418,7 +420,7 @@ def get_summary(object_name: str, sentences=3):
             print(f"Error for {object_name}: {e}")
 
 
-def generate_objects_data(list_elements: list, max_amount=NUMBER_OF_ROUNDS+1):
+def generate_objects_data(list_elements: list, max_amount=NUMBER_OF_ROUNDS + 1):
     """
     Iterate a list of element to give the summary of each one.
     Args:
@@ -465,7 +467,6 @@ def get_random_wiki_data(mode: GameMode, category: str) -> list[dict] | None:
         validate_output(wiki_data)
 
         return wiki_data
-
 
 
 """

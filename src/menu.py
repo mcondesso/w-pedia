@@ -1,7 +1,6 @@
-import random
-from typing import Dict, List, Tuple
+from typing import Dict, List
 from colorama import Fore, Style, init, Back
-from src.globals import GameMode, WhoCategory, CATEGORY_MAP
+from src.globals import GameMode, CATEGORY_MAP
 
 # Initialize colorama
 init(autoreset=True)
@@ -191,10 +190,13 @@ def display_instructions_menu():
     :return:
     """
     print("\nInstructions:")
-    print(Fore.MAGENTA + """
+    print(
+        Fore.MAGENTA
+        + """
     This is W-Pedia, a game where you can test your knowledge and expand your horizons.
     You will be presented with a series of questions, and you need to choose the correct answer.
-    There will be a number of rounds and hints to guide you through the game.""")
+    There will be a number of rounds and hints to guide you through the game."""
+    )
     print(Fore.MAGENTA + "Learn while having fun and exploring new ideas!")
 
 
@@ -205,7 +207,9 @@ def display_instructions_menu():
 
 def display_settings_menu():
 
-    return multiple_choice_menu("Settings", ["Change number of rounds", "Change number of tries/hints", "Back"])
+    return multiple_choice_menu(
+        "Settings", ["Change number of rounds", "Change number of tries/hints", "Back"]
+    )
 
 
 def display_change_rounds():
@@ -371,7 +375,6 @@ def display_leaderboard(leaderboard: List[Dict]):
         print(Fore.MAGENTA + "No scores yet...")
     else:
         for i, entry in enumerate(leaderboard, start=1):
-
             player = entry.get("player", "-")
             score = entry.get("score", 0)
             rounds = entry.get("number_of_rounds", 0)
